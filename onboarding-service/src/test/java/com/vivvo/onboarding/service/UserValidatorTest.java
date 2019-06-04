@@ -3,6 +3,7 @@ package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.repository.UserRepository;
+import com.vivvo.onboarding.service.user_service.UserValidator;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
