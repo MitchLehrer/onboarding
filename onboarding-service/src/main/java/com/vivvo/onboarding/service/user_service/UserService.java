@@ -26,6 +26,9 @@ public class UserService {
     private UserAssembler userAssembler;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private UserValidator userValidator;
 
     @Autowired
@@ -59,11 +62,20 @@ public class UserService {
             throw new ValidationException(errors);
         }
 
-        return Optional.of(dto)
+        UserDto updateUser = Optional.of(dto)
                 .map(userAssembler::disassemble)
                 .map(userRepository::save)
                 .map(userAssembler::assemble)
                 .orElseThrow(IllegalArgumentException::new);
+
+        //Generate phone number(s) for user since they weren't created in user assembly
+        List<PhoneDto> updateUserPhones = dto.getPhoneList();
+        for (PhoneDto phone : updateUserPhones){
+            phoneService.update(phone);
+        }
+
+        //Get user by ID instead of returning Dto in case anything changed by adding to DB
+        return get(updateUser.getUserId());
     }
 
     public UserDto get(UUID userId) {
@@ -99,6 +111,11 @@ public class UserService {
             userRepository.delete(user.get());
         } else {
             throw new NotFoundException(userId);
+        }
+
+        List<PhoneDto> userPhones = userService.get(userId).getPhoneList();
+        for (PhoneDto phone : userPhones){
+            phoneService.delete(phone.getPhoneId());
         }
     }
 
