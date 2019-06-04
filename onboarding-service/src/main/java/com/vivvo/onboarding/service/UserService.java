@@ -8,9 +8,11 @@ import com.vivvo.onboarding.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -54,6 +56,20 @@ public class UserService {
         return userRepository.findById(userId)
                 .map(userAssembler::assemble)
                 .orElseThrow(() -> new NotFoundException(userId));
+    }
+
+    public List<UserDto> getByFirstName(String firstName) {
+        return userRepository.findByFirstName(firstName)
+                .stream()
+                .map(userAssembler::assemble)
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto> getByLastName(String lastName) {
+        return userRepository.findByLastName(lastName)
+                .stream()
+                .map(userAssembler::assemble)
+                .collect(Collectors.toList());
     }
 
     public void delete(UUID userId) {
