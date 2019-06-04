@@ -37,6 +37,16 @@ public class UserController {
         return userService.get(userId);
     }
 
+    @GetMapping(params = "firstName")
+    public List<UserDto> getByFirstName(@RequestParam String firstName) {
+        return userService.getByFirstName(firstName);
+    }
+
+    @GetMapping(params = "lastName")
+    public List<UserDto> getByLastName(@RequestParam String lastName) {
+        return userService.getByLastName(lastName);
+    }
+
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID userId) {

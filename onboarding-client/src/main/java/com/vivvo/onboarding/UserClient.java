@@ -6,7 +6,11 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class UserClient {
 
@@ -41,6 +45,23 @@ public class UserClient {
                 .request()
                 .get(UserDto.class);
     }
+
+    public List<UserDto> getByFirstName(String firstName) {
+        return userTarget()
+                .queryParam("firstName", firstName)
+                .request()
+                .get(new GenericType<List<UserDto>>(){});
+    }
+
+    public List<UserDto> getByLastName(String lastName) {
+        return userTarget()
+                .queryParam("lastName", lastName)
+                .request()
+                .get(new GenericType<List<UserDto>>(){});
+    }
+
+
+
 
     private WebTarget userTarget() {
         return client.target(baseUri)
