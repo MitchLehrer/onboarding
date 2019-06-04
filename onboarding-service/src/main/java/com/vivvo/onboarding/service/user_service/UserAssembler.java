@@ -2,6 +2,7 @@ package com.vivvo.onboarding.service.user_service;
 
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.User;
+import com.vivvo.onboarding.service.phone_service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +11,17 @@ import java.util.UUID;
 @Component
 public class UserAssembler {
 
+    @Autowired
+    private PhoneService phoneService;
+
     public UserDto assemble(User entity) {
+
         return new UserDto()
                 .setUserId(entity.getUserId())
                 .setFirstName(entity.getFirstName())
                 .setLastName(entity.getLastName())
-                .setUsername(entity.getUsername());
+                .setUsername(entity.getUsername())
+                .setPhoneList(phoneService.getByUserId(entity.getUserId()));
     }
 
     public User disassemble(UserDto dto) {

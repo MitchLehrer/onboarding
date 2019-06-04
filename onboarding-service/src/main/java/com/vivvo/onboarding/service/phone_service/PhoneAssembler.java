@@ -23,7 +23,7 @@ public class PhoneAssembler {
                 .setPhoneId(dto.getPhoneId() == null ? UUID.randomUUID() : dto.getPhoneId())
                 .setUserId(dto.getUserId())
                 .setPhoneNumber(dto.getPhoneNumber())
-                .setVerified(dto.getVerified())
-                .setPrimary(dto.getPrimary());
+                .setVerified(dto.getVerified() == null ? false : dto.getVerified() )
+                .setPrimary(dto.getPrimary() == null ? false : dto.getPrimary() );
     }
 }

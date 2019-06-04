@@ -19,11 +19,7 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> find() {
-        return Collections.singletonList(new UserDto()
-            .setFirstName("Tim")
-            .setLastName("Dodd")
-            .setUserId(UUID.randomUUID())
-            .setUsername("doddt"));
+        return userService.getAll();
     }
 
     @PostMapping

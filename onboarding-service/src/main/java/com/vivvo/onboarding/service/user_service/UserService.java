@@ -1,10 +1,12 @@
 package com.vivvo.onboarding.service.user_service;
 
+import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.User;
 import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.UserRepository;
+import com.vivvo.onboarding.service.phone_service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +28,29 @@ public class UserService {
     @Autowired
     private UserValidator userValidator;
 
+    @Autowired
+    private PhoneService phoneService;
+
     public UserDto create(UserDto dto) {
         Map<String, String> errors = userValidator.validate(dto);
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
 
-        return Optional.of(dto)
+        UserDto newUser = Optional.of(dto)
                 .map(userAssembler::disassemble)
                 .map(userRepository::save)
                 .map(userAssembler::assemble)
                 .orElseThrow(IllegalArgumentException::new);
+
+        //Generate phone number(s) for user since they weren't created in user assembly
+        List<PhoneDto> newUserPhones = dto.getPhoneList();
+        for (PhoneDto phone : newUserPhones){
+            phoneService.create(phone);
+        }
+
+        //Get user by ID instead of returning Dto in case anything changed by adding to DB
+        return get(newUser.getUserId());
     }
 
     public UserDto update(UserDto dto) {
@@ -56,6 +70,13 @@ public class UserService {
         return userRepository.findById(userId)
                 .map(userAssembler::assemble)
                 .orElseThrow(() -> new NotFoundException(userId));
+    }
+
+    public List<UserDto> getAll() {
+        return userRepository.findAll()
+                .stream()
+                .map(userAssembler::assemble)
+                .collect(Collectors.toList());
     }
 
     public List<UserDto> getByFirstName(String firstName) {

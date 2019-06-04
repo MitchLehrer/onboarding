@@ -1,6 +1,5 @@
 package com.vivvo.onboarding.entity;
 
-import javafx.beans.binding.BooleanBinding;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @Setter
 @Accessors(chain = true)
 public class Phone {
-
     @Id
     @Column(name = "phone_id")
     @Type(type = "uuid-char")
@@ -32,5 +30,4 @@ public class Phone {
     private Boolean primary;
     @Column(name = "verified")
     private Boolean verified;
-
 }

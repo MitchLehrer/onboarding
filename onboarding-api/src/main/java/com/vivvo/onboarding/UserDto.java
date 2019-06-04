@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,5 +17,6 @@ public class UserDto {
     private String username;
     private String firstName;
     private String lastName;
+    private List<PhoneDto> phoneList;
 
 }
