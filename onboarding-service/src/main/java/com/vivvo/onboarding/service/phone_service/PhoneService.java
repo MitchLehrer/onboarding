@@ -4,11 +4,13 @@ import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.exception.NotFoundException;
+import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,10 +29,10 @@ public class PhoneService {
     private PhoneValidator phoneValidator;
 
     public PhoneDto create(PhoneDto dto) {
-       /* Map<String, String> errors = phoneValidator.validate(dto);
+        Map<String, String> errors = phoneValidator.validate(dto);
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
-        }*/
+        }
 
         return Optional.of(dto)
                 .map(phoneAssembler::disassemble)
@@ -42,10 +44,10 @@ public class PhoneService {
 
 
     public PhoneDto update(PhoneDto  dto) {
-        /*Map<String, String> errors = userValidator.validateForUpdate(dto);
+     Map<String, String> errors = phoneValidator.validate(dto);
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
-        }*/
+        }
 
         return Optional.of(dto)
                 .map(phoneAssembler::disassemble)

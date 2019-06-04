@@ -12,6 +12,8 @@ public class OnboadingApplication {
 
     //TODO implement find for users
     // implement phone subresource (all crud operations) and tests
+        //valid phone number
+        //only one primary
     // create action to make a phone number primary
     // use twillio to send an sms code and verify a phone number (more actions)
 

@@ -49,6 +49,7 @@ public class UserService {
         //Generate phone number(s) for user since they weren't created in user assembly
         List<PhoneDto> newUserPhones = dto.getPhoneList();
         for (PhoneDto phone : newUserPhones){
+            phone.setUserId(newUser.getUserId());
             phoneService.create(phone);
         }
 

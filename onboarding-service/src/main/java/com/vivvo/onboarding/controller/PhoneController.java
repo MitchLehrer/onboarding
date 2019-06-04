@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/users/{userId}/phones")
 public class PhoneController {
-    
+
     @Autowired
     private PhoneService phoneService;
 
@@ -31,8 +31,8 @@ public class PhoneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PhoneDto create(@RequestBody PhoneDto dto, @PathVariable UUID userId) {
-        dto.setUserId(userId);
+    public PhoneDto create(@RequestBody PhoneDto dto) {
+        System.out.println(dto.getUserId());
         return phoneService.create(dto);
     }
 

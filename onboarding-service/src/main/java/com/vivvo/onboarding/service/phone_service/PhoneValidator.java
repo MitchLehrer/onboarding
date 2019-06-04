@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -14,28 +15,47 @@ import java.util.Map;
 public class PhoneValidator {
 
     private final PhoneRepository phoneRepository;
+    public static String INVALID_PHONE_NUMBER = "phone.phoneNumber.INVALID_PHONE_NUMBER";
+    public static String ONLY_ONE_PRIMARY = "phone.phonePrimary.ONLY_ONE_PRIMARY";
+
+    @Autowired
+    private PhoneService phoneService;
 
     @Autowired
     public PhoneValidator(PhoneRepository phoneRepository) {
         this.phoneRepository = phoneRepository;
     }
 
-    /*
-    Common regexs for validating phone nums:
-    //validate phone numbers of format "1234567890"
-		if (phoneNo.matches("\\d{10}")) return true;
-		//validating phone number with -, . or spaces
-		else if(phoneNo.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")) return true;
-		//validating phone number with extension length from 3 to 5
-		else if(phoneNo.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}")) return true;
-		//validating phone number where area code is in braces ()
-		else if(phoneNo.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) return true;
-		//return false if nothing matches the input
-		else return false;
-	*/
-
     public Map<String, String> validate(PhoneDto dto) {
+        Map<String, String> allErrors = new LinkedHashMap<>();
+        allErrors.putAll(validatePhoneNumber(dto));
+        allErrors.putAll(validateOnlyOnePrimary(dto));
+
+        return allErrors;
+    }
+
+    public Map<String, String> validatePhoneNumber(PhoneDto dto){
+
         Map<String, String> errors = new LinkedHashMap<>();
+        String phoneNum = dto.getPhoneNumber();
+
+        if(phoneNum.matches("\\d{10}") || phoneNum.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}")|| phoneNum.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}") || phoneNum.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")){
+        }else{
+            errors.put("phoneNumber", INVALID_PHONE_NUMBER);
+        }
+
+        return errors;
+    }
+
+    public Map<String, String> validateOnlyOnePrimary(PhoneDto dto){
+        Map<String, String> errors = new LinkedHashMap<>();
+        List<PhoneDto> userPhones = phoneService.getByUserId(dto.getUserId());
+
+//        for (PhoneDto phone : userPhones){
+//            if(phone.getPrimary()){
+//                errors.put("phonePrimary", ONLY_ONE_PRIMARY);
+//            }
+//        }
 
         return errors;
     }
