@@ -48,18 +48,12 @@ public class UserService {
 
         //Generate phone number(s) for user since they weren't created in user assembly
         List<PhoneDto> newPhones = dto.getPhoneList();
-        if(newPhones != null) {
+        /*if(newPhones != null) {
             for (PhoneDto phone : newPhones) {
                 phone.setUserId(newUser.getUserId());
-                /*if (phone.getPrimary()){
-                    List<PhoneDto> allUserPhones = phoneService.getByUserId(dto.getUserId());
-                    for (PhoneDto userPhone : allUserPhones) {
-                        phoneService.update(userPhone.setPrimary(false));
-                    }
-                }*/
                 phoneService.create(phone);
             }
-        }
+        }*/
 
         //Get user by ID instead of returning Dto in case anything changed by adding to DB
         return get(newUser.getUserId());

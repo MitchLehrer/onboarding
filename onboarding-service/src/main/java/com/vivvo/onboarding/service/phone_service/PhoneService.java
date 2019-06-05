@@ -81,6 +81,12 @@ public class PhoneService {
     }
 
     public PhoneDto makePrimary(UUID phoneId){
+
+        List<PhoneDto> allUserPhones = getByUserId(get(phoneId).getUserId());
+        for (PhoneDto userPhone : allUserPhones) {
+            userPhone.setPrimary(false);
+        }
+
         return get(phoneId)
                 .setPrimary(true);
     }
