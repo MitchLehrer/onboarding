@@ -1,5 +1,6 @@
 package com.vivvo.onboarding.controller;
 
+import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.UserClient;
 import com.vivvo.onboarding.UserDto;
 import org.junit.Before;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "classpath:teardown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class PhoneControllerTest {
-/*
+
 
     private UserClient userClient;
 
@@ -36,48 +37,42 @@ public class PhoneControllerTest {
     }
 
     @Test
-    public void testCreate_shouldSucceed() {
+    public void testCreatePhone_shouldSucceed(){
         UserDto createdUser = userClient.create(getValidUserDto());
-        assertNotNull(createdUser.getUserId());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        assertNotNull(createdPhone.getPhoneId());
     }
+
+    @Test
+    public void testCreateAndGetPhone_returnedObjectsShouldMatch() {
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        PhoneDto getPhone = userClient.getByPhoneId(createdPhone.getUserId(), createdPhone.getPhoneId());
+        assertEquals(createdPhone, getPhone);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testGetWithInvalidId_shouldReturnNotFound() {
+        UserDto createdUser = userClient.create(getValidUserDto());
+        userClient.getByPhoneId(createdUser.getUserId(), new UUID(0,1));
+    }
+
+    @Test
+    public void testGetPhonesByUserId(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        List<PhoneDto> getPhone = userClient.getPhonesByUserId(createdUser.getUserId());
+        assertEquals(createdPhone, getPhone.get(0));
+    }
+
+/*
 
     @Test(expected = BadRequestException.class)
     public void testCreateTwiceWithSameUsername_shouldReturnBadRequest() {
         userClient.create(getValidUserDto());
         userClient.create(getValidUserDto());
-    }
 
-    @Test
-    public void testCreateAndGet_returnedObjectsShouldMatch() {
-        UserDto createdUser = userClient.create(getValidUserDto());
-        UserDto getUser = userClient.get(createdUser.getUserId());
-        assertEquals(createdUser, getUser);
-    }
-
-    @Test(expected = NotFoundException.class)
-    public void testGetWithInvalidId_shouldReturnNotFound() {
-        userClient.get(new UUID(0,1));
-    }
-
-
-    @Test
-    public void testGetByFirstName(){
-        UserDto createdUser = userClient.create(getValidUserDto());
-        List<UserDto> getUser = userClient.getByFirstName("Tim");
-        assertEquals(createdUser, getUser.get(0));
-    }
-
-    @Test
-    public void testGetByLastName(){
-        UserDto createdUser = userClient.create(getValidUserDto());
-        List<UserDto> getUser = userClient.getByLastName("Dodd");
-        assertEquals(createdUser, getUser.get(0));
-    }
-
-    //tests for update
-    //test for delete
-    //etc
-
+    }*/
 
     private UserDto getValidUserDto() {
         return new UserDto()
@@ -85,6 +80,11 @@ public class PhoneControllerTest {
                 .setLastName("Dodd")
                 .setUsername("doddt");
     }
-*/
+
+
+    private PhoneDto getValidPhoneDto() {
+        return new PhoneDto()
+                .setPhoneNumber("3065410371");
+    }
 
 }

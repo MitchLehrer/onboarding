@@ -29,10 +29,12 @@ public class PhoneService {
     private PhoneValidator phoneValidator;
 
     public PhoneDto create(PhoneDto dto) {
-        Map<String, String> errors = phoneValidator.validate(dto);
-        if (!errors.isEmpty()) {
-            throw new ValidationException(errors);
-        }
+     Map<String, String> errors = phoneValidator.validate(dto);
+       if (!errors.isEmpty()) {
+           throw new ValidationException(errors);
+       }
+
+       dto.setVerified(false);
 
         return Optional.of(dto)
                 .map(phoneAssembler::disassemble)
@@ -40,7 +42,6 @@ public class PhoneService {
                 .map(phoneAssembler::assemble)
                 .orElseThrow(IllegalArgumentException::new);
     }
-
 
 
     public PhoneDto update(PhoneDto  dto) {

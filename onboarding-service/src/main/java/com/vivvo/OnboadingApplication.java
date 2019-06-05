@@ -11,8 +11,10 @@ import org.springframework.context.support.MessageSourceAccessor;
 public class OnboadingApplication {
 
     //TODO implement find for users
+    // implement phone validation
+    //      Only one primary validation check
+    //      No duplicate phone number
     // implement phone tests
-    //      Create check to ensure only one primary
     // use twillio to send an sms code and verify a phone number (more actions)
 
 

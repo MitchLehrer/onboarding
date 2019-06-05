@@ -79,8 +79,8 @@ public class UserClient {
                 .get(PhoneDto.class);
     }
 
-    public List<PhoneDto> getPhonesByUserId(UUID userId, UUID phoneId){
-        return phoneTarget(userId, phoneId)
+    public List<PhoneDto> getPhonesByUserId(UUID userId){
+        return phoneTarget(userId)
                 .request()
                 .get(new GenericType<List<PhoneDto>>(){});
     }

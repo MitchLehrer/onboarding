@@ -7,6 +7,7 @@ import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.UserRepository;
 import com.vivvo.onboarding.service.phone_service.PhoneService;
+import com.vivvo.onboarding.service.phone_service.PhoneValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +35,17 @@ public class UserService {
     @Autowired
     private PhoneService phoneService;
 
+    @Autowired
+    private PhoneValidator phoneValidator;
+
     public UserDto create(UserDto dto) {
+
         Map<String, String> errors = userValidator.validate(dto);
+        List<PhoneDto> newPhones = dto.getPhoneList();
+
+        if (newPhones != null) {
+            errors.putAll(phoneValidator.validate(newPhones));
+        }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
@@ -47,20 +57,25 @@ public class UserService {
                 .orElseThrow(IllegalArgumentException::new);
 
         //Generate phone number(s) for user since they weren't created in user assembly
-        List<PhoneDto> newPhones = dto.getPhoneList();
-        /*if(newPhones != null) {
+        if (newPhones != null) {
             for (PhoneDto phone : newPhones) {
                 phone.setUserId(newUser.getUserId());
                 phoneService.create(phone);
             }
-        }*/
+        }
 
         //Get user by ID instead of returning Dto in case anything changed by adding to DB
         return get(newUser.getUserId());
     }
 
     public UserDto update(UserDto dto) {
+
         Map<String, String> errors = userValidator.validateForUpdate(dto);
+        List<PhoneDto> newPhones = dto.getPhoneList();
+
+        if (newPhones != null) {
+            errors.putAll(phoneValidator.validate(newPhones));
+        }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
@@ -73,7 +88,7 @@ public class UserService {
 
         //Generate phone number(s) for user since they weren't created in user assembly
         List<PhoneDto> updateUserPhones = dto.getPhoneList();
-        if(updateUserPhones != null) {
+        if (updateUserPhones != null) {
             for (PhoneDto phone : updateUserPhones) {
                 phoneService.update(phone);
             }
@@ -119,9 +134,10 @@ public class UserService {
         }
 
         List<PhoneDto> userPhones = userService.get(userId).getPhoneList();
-        for (PhoneDto phone : userPhones){
+        for (PhoneDto phone : userPhones) {
             phoneService.delete(phone.getPhoneId());
         }
     }
+
 
 }
