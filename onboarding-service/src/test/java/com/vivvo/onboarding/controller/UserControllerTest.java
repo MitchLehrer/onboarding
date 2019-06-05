@@ -73,9 +73,20 @@ public class UserControllerTest {
         assertEquals(createdUser, getUser.get(0));
     }
 
-    //tests for update
-    //test for delete
-    //etc
+    @Test
+    public void testUpdateUser(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        String newName = "Tom";
+        UserDto updatedPhone = userClient.update(createdUser.setFirstName(newName));
+        assertEquals(newName, updatedPhone.getFirstName());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testDeletePhone(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        userClient.delete(createdUser.getUserId());
+        userClient.get(createdUser.getUserId());
+    }
 
 
     private UserDto getValidUserDto() {

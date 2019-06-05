@@ -1,7 +1,7 @@
 package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.UserDto;
-import com.vivvo.onboarding.service.UserService;
+import com.vivvo.onboarding.service.user_service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +19,7 @@ public class UserController {
 
     @GetMapping
     public List<UserDto> find() {
-        return Collections.singletonList(new UserDto()
-            .setFirstName("Tim")
-            .setLastName("Dodd")
-            .setUserId(UUID.randomUUID())
-            .setUsername("doddt"));
+        return userService.getAll();
     }
 
     @PostMapping

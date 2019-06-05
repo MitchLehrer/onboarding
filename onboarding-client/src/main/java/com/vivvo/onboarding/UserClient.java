@@ -7,10 +7,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class UserClient {
 
@@ -61,8 +59,6 @@ public class UserClient {
     }
 
 
-
-
     private WebTarget userTarget() {
         return client.target(baseUri)
                 .path("api")
@@ -75,7 +71,56 @@ public class UserClient {
                 .path(userId.toString());
     }
 
+    public PhoneDto getByPhoneId(UUID userId, UUID phoneId){
+        return phoneTarget(userId, phoneId)
+                .request()
+                .get(PhoneDto.class);
+    }
 
+    public List<PhoneDto> getPhonesByUserId(UUID userId){
+        return phoneTarget(userId)
+                .request()
+                .get(new GenericType<List<PhoneDto>>(){});
+    }
 
+    public PhoneDto createPhone(UUID userId, PhoneDto dto) {
+        return phoneTarget(userId)
+                .request()
+                .post(Entity.json(dto), PhoneDto.class);
+    }
+
+    public PhoneDto updatePhone(UUID userId, PhoneDto dto) {
+        return phoneTarget(userId, dto.getPhoneId())
+                .request()
+                .put(Entity.json(dto), PhoneDto.class);
+    }
+
+    public void deletePhone(UUID userId, UUID phoneId) {
+        phoneTarget(userId, phoneId)
+                .request()
+                .delete(Void.class);
+    }
+
+    public PhoneDto makePhonePrimary(UUID userId, UUID phoneId) {
+        return phoneTarget(userId, phoneId)
+                .path("set-primary")
+                .request()
+                .post(Entity.json(phoneId), PhoneDto.class);
+    }
+
+    private WebTarget phoneTarget(UUID userId) {
+        return client
+                .target(baseUri)
+                .path("api")
+                .path("v1")
+                .path("users")
+                .path(userId.toString())
+                .path("phones");
+    }
+
+    private WebTarget phoneTarget(UUID userId, UUID phoneId) {
+        return phoneTarget(userId)
+                .path(phoneId.toString());
+    }
 
 }
