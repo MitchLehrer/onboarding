@@ -47,10 +47,18 @@ public class UserService {
                 .orElseThrow(IllegalArgumentException::new);
 
         //Generate phone number(s) for user since they weren't created in user assembly
-        List<PhoneDto> newUserPhones = dto.getPhoneList();
-        for (PhoneDto phone : newUserPhones){
-            phone.setUserId(newUser.getUserId());
-            phoneService.create(phone);
+        List<PhoneDto> newPhones = dto.getPhoneList();
+        if(newPhones != null) {
+            for (PhoneDto phone : newPhones) {
+                phone.setUserId(newUser.getUserId());
+                /*if (phone.getPrimary()){
+                    List<PhoneDto> allUserPhones = phoneService.getByUserId(dto.getUserId());
+                    for (PhoneDto userPhone : allUserPhones) {
+                        phoneService.update(userPhone.setPrimary(false));
+                    }
+                }*/
+                phoneService.create(phone);
+            }
         }
 
         //Get user by ID instead of returning Dto in case anything changed by adding to DB
@@ -71,8 +79,10 @@ public class UserService {
 
         //Generate phone number(s) for user since they weren't created in user assembly
         List<PhoneDto> updateUserPhones = dto.getPhoneList();
-        for (PhoneDto phone : updateUserPhones){
-            phoneService.update(phone);
+        if(updateUserPhones != null) {
+            for (PhoneDto phone : updateUserPhones) {
+                phoneService.update(phone);
+            }
         }
 
         //Get user by ID instead of returning Dto in case anything changed by adding to DB

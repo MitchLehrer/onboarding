@@ -31,8 +31,8 @@ public class PhoneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PhoneDto create(@RequestBody PhoneDto dto) {
-        System.out.println(dto.getUserId());
+    public PhoneDto create(@RequestBody PhoneDto dto, @PathVariable UUID userId) {
+        if(userId != null){dto.setUserId(userId);}
         return phoneService.create(dto);
     }
 
@@ -47,6 +47,11 @@ public class PhoneController {
         dto.setUserId(userId);
         dto.setPhoneId(phoneId);
         return phoneService.update(dto);
+    }
+
+    @PostMapping("/{phoneId}/set-primary")
+    public PhoneDto SetPrimary(@PathVariable UUID phoneId){
+        return phoneService.makePrimary(phoneId);
     }
 
 }

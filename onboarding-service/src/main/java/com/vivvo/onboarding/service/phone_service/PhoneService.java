@@ -80,4 +80,9 @@ public class PhoneService {
         }
     }
 
+    public PhoneDto makePrimary(UUID phoneId){
+        return get(phoneId)
+                .setPrimary(true);
+    }
+
 }
