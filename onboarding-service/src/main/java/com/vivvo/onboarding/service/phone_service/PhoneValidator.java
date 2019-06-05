@@ -29,37 +29,42 @@ public class PhoneValidator {
 
     public Map<String, String> validate(PhoneDto dto) {
         Map<String, String> allErrors = new LinkedHashMap<>();
+
+        allErrors.putAll(validatePhoneNumber(dto));
+
         List<PhoneDto> userPhones = phoneService.getByUserId(dto.getUserId());
         userPhones.add(dto);
 
-        allErrors.putAll(validatePhoneNumber(userPhones));
         allErrors.putAll(validateOnlyOnePrimary(userPhones));
         allErrors.putAll(validateNoDuplicates(userPhones));
         return allErrors;
     }
 
-    public Map<String, String> validate(List<PhoneDto> newPhones) {
+    public Map<String, String> validate(List<PhoneDto> dtos) {
+
         Map<String, String> allErrors = new LinkedHashMap<>();
-        List<PhoneDto> userPhones = phoneService.getByUserId(newPhones.get(0).getUserId());
-        userPhones.addAll(newPhones);
 
-        allErrors.putAll(validatePhoneNumber(userPhones));
+        for(PhoneDto dto : dtos) {
+            allErrors.putAll(validatePhoneNumber(dto));
+        }
+
+        List<PhoneDto> userPhones = phoneService.getByUserId(dtos.get(0).getUserId());
+        userPhones.addAll(dtos);
+
         allErrors.putAll(validateOnlyOnePrimary(userPhones));
         allErrors.putAll(validateNoDuplicates(userPhones));
         return allErrors;
     }
 
-    public Map<String, String> validatePhoneNumber(List<PhoneDto> phoneList) {
+    public Map<String, String> validatePhoneNumber(PhoneDto dto) {
         Map<String, String> errors = new LinkedHashMap<>();
 
-        for (PhoneDto phone : phoneList) {
-            String phoneNum = phone.getPhoneNumber();
+            String phoneNum = dto.getPhoneNumber();
 
             if (phoneNum.matches("\\d{10}") || phoneNum.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}") || phoneNum.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}") || phoneNum.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
             } else {
                 errors.put("phoneNumber", INVALID_PHONE_NUMBER);
             }
-        }
 
         return errors;
     }
