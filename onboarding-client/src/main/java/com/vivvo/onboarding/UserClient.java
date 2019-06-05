@@ -7,10 +7,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class UserClient {
 
@@ -101,6 +99,13 @@ public class UserClient {
         phoneTarget(userId, phoneId)
                 .request()
                 .delete(Void.class);
+    }
+
+    public PhoneDto makePhonePrimary(UUID userId, UUID phoneId) {
+        return phoneTarget(userId, phoneId)
+                .path("set-primary")
+                .request()
+                .post(Entity.json(phoneId), PhoneDto.class);
     }
 
     private WebTarget phoneTarget(UUID userId) {

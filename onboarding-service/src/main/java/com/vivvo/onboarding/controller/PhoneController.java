@@ -42,7 +42,7 @@ public class PhoneController {
         phoneService.delete(phoneId);
     }
 
-    @PostMapping("/{phoneId}")
+    @PutMapping("/{phoneId}")
     public PhoneDto update(@RequestBody PhoneDto dto, @PathVariable UUID userId, @PathVariable UUID phoneId) {
         dto.setUserId(userId);
         dto.setPhoneId(phoneId);

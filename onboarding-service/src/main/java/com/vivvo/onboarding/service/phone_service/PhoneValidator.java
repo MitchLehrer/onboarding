@@ -68,15 +68,16 @@ public class PhoneValidator {
         Map<String, String> errors = new LinkedHashMap<>();
 
         List<PhoneDto> primaryPhones = new ArrayList<>();
-
-        for (PhoneDto phone : phoneList) {
-            if (phone.getPrimary()) {
-                primaryPhones.add(phone);
+        if (phoneList != null) {
+            for (PhoneDto phone : phoneList) {
+                if (phone.getPrimary() != null && phone.getPrimary()) {
+                    primaryPhones.add(phone);
+                }
             }
-        }
 
-        if (primaryPhones.size() > 1) {
-            errors.put("phonePrimary", ONLY_ONE_PRIMARY);
+            if (primaryPhones.size() > 1) {
+                errors.put("phonePrimary", ONLY_ONE_PRIMARY);
+            }
         }
 
         return errors;

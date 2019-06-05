@@ -16,8 +16,7 @@ import javax.ws.rs.NotFoundException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -58,21 +57,37 @@ public class PhoneControllerTest {
     }
 
     @Test
-    public void testGetPhonesByUserId(){
+    public void testGetPhonesByUserId_shouldSucceed(){
         UserDto createdUser = userClient.create(getValidUserDto());
         PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
         List<PhoneDto> getPhone = userClient.getPhonesByUserId(createdUser.getUserId());
         assertEquals(createdPhone, getPhone.get(0));
     }
 
-/*
+    @Test
+    public void testMakePhonePrimaryThroughAction_shouldReturnTrue() {
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto().setPrimary(false));
+        PhoneDto getPhone = userClient.makePhonePrimary(createdPhone.getUserId(), createdPhone.getPhoneId());
+        assertTrue(getPhone.getPrimary());
+    }
 
-    @Test(expected = BadRequestException.class)
-    public void testCreateTwiceWithSameUsername_shouldReturnBadRequest() {
-        userClient.create(getValidUserDto());
-        userClient.create(getValidUserDto());
+    @Test
+    public void testUpdatePhone_NewAndReturnedObjectNameShouldMAtch(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        String newNumber = "1234567890";
+        PhoneDto updatedPhone = userClient.updatePhone(createdPhone.getUserId(), createdPhone.setPhoneNumber(newNumber));
+        assertEquals(newNumber, updatedPhone.getPhoneNumber());
+    }
 
-    }*/
+    @Test(expected = NotFoundException.class)
+    public void testDeletePhone_shouldReturnNotFound(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        userClient.deletePhone(createdUser.getUserId(), createdPhone.getPhoneId());
+        userClient.getByPhoneId(createdUser.getUserId(), createdPhone.getPhoneId());
+    }
 
     private UserDto getValidUserDto() {
         return new UserDto()

@@ -57,7 +57,7 @@ public class UserService {
                 .orElseThrow(IllegalArgumentException::new);
 
         //Generate phone number(s) for user since they weren't created in user assembly
-        if (newPhones != null) {
+        if (newPhones != null && !newPhones.isEmpty()) {
             for (PhoneDto phone : newPhones) {
                 phone.setUserId(newUser.getUserId());
                 phoneService.create(phone);
@@ -71,10 +71,10 @@ public class UserService {
     public UserDto update(UserDto dto) {
 
         Map<String, String> errors = userValidator.validateForUpdate(dto);
-        List<PhoneDto> newPhones = dto.getPhoneList();
+        List<PhoneDto> phones = dto.getPhoneList();
 
-        if (newPhones != null) {
-            errors.putAll(phoneValidator.validate(newPhones));
+        if (phones != null && !phones.isEmpty()) {
+            errors.putAll(phoneValidator.validate(phones));
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
