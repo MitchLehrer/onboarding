@@ -1,10 +1,7 @@
 package com.vivvo.onboarding.service.phone_service;
 
-import com.sun.org.apache.bcel.internal.generic.DUP;
 import com.vivvo.onboarding.PhoneDto;
-import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.repository.PhoneRepository;
-import com.vivvo.onboarding.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +37,18 @@ public class PhoneValidator {
         return allErrors;
     }
 
+    public Map<String, String> validateForUpdate(PhoneDto dto) {
+        Map<String, String> allErrors = new LinkedHashMap<>();
+
+        allErrors.putAll(validatePhoneNumber(dto));
+
+        List<PhoneDto> userPhones = phoneService.getByUserId(dto.getUserId());
+        userPhones.add(dto);
+
+        allErrors.putAll(validateOnlyOnePrimary(userPhones));
+        return allErrors;
+    }
+
     public Map<String, String> validate(List<PhoneDto> dtos) {
 
         Map<String, String> allErrors = new LinkedHashMap<>();
@@ -59,7 +68,7 @@ public class PhoneValidator {
     public Map<String, String> validatePhoneNumber(PhoneDto dto) {
         Map<String, String> errors = new LinkedHashMap<>();
 
-            String phoneNum = dto.getPhoneNumber();
+            String phoneNum = dto.getPhoneNumber().replaceAll("[^\\d]", "" );
 
             if (phoneNum.matches("\\d{10}") || phoneNum.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}") || phoneNum.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}") || phoneNum.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
             } else {
@@ -93,11 +102,11 @@ public class PhoneValidator {
 
         Set<String> seenValues = new HashSet();
         for (PhoneDto phone : phoneList) {
-            if (seenValues.contains(phone.toString())) {
+            if (seenValues.contains(phone.getPhoneNumber().replaceAll("[^\\d]", "" ))) {
                 errors.put("phoneNumber", DUPLICATE_PHONE_NUMBER);
             }
         else{
-                seenValues.add(phone.toString());
+                seenValues.add(phone.getPhoneNumber().replaceAll("[^\\d]", "" ));
             }
         }
         return errors;

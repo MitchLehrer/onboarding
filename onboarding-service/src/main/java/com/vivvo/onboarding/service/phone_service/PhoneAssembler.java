@@ -5,7 +5,6 @@ import com.vivvo.onboarding.entity.Phone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -28,7 +27,7 @@ public class PhoneAssembler {
         return new Phone()
                 .setPhoneId(dto.getPhoneId() == null ? UUID.randomUUID() : dto.getPhoneId())
                 .setUserId(dto.getUserId())
-                .setPhoneNumber(dto.getPhoneNumber())
+                .setPhoneNumber(dto.getPhoneNumber().replaceAll("[^\\d]", "" ))
                 .setVerified(dto.getVerified() == null ? false : dto.getVerified() )
                 .setPrimary(dto.getPrimary() == null ? false : dto.getPrimary() );
     }

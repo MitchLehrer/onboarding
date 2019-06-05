@@ -1,28 +1,20 @@
 package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.PhoneDto;
-import com.vivvo.onboarding.UserClient;
-import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.repository.PhoneRepository;
-import com.vivvo.onboarding.repository.UserRepository;
 import com.vivvo.onboarding.service.phone_service.PhoneValidator;
-import com.vivvo.onboarding.service.user_service.UserValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 @RunWith(SpringRunner.class)
@@ -32,11 +24,7 @@ public class PhoneValidatorTest {
 
 
     private PhoneValidator phoneValidator;
-    private UserRepository userRepository;
     private PhoneRepository phoneRepository;
-
-    @LocalServerPort
-    private int port;
 
     @Before
     public void init() {

@@ -1,7 +1,6 @@
 package com.vivvo.onboarding.service.phone_service;
 
 import com.vivvo.onboarding.PhoneDto;
-import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
@@ -29,12 +28,12 @@ public class PhoneService {
     private PhoneValidator phoneValidator;
 
     public PhoneDto create(PhoneDto dto) {
-     Map<String, String> errors = phoneValidator.validate(dto);
-       if (!errors.isEmpty()) {
-           throw new ValidationException(errors);
-       }
+        Map<String, String> errors = phoneValidator.validate(dto);
+        if (!errors.isEmpty()) {
+            throw new ValidationException(errors);
+        }
 
-       dto.setVerified(false);
+        dto.setVerified(false);
 
         return Optional.of(dto)
                 .map(phoneAssembler::disassemble)
@@ -44,8 +43,8 @@ public class PhoneService {
     }
 
 
-    public PhoneDto update(PhoneDto  dto) {
-     Map<String, String> errors = phoneValidator.validate(dto);
+    public PhoneDto update(PhoneDto dto) {
+        Map<String, String> errors = phoneValidator.validateForUpdate(dto);
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
         }
@@ -64,12 +63,12 @@ public class PhoneService {
     }
 
 
-   public List<PhoneDto> getByUserId(UUID userId){
+    public List<PhoneDto> getByUserId(UUID userId) {
         return phoneRepository.findByUserId(userId)
                 .stream()
                 .map(phoneAssembler::assemble)
                 .collect(Collectors.toList());
-   }
+    }
 
 
     public void delete(UUID phoneId) {
@@ -81,15 +80,27 @@ public class PhoneService {
         }
     }
 
-    public PhoneDto makePrimary(UUID phoneId){
+    public PhoneDto makePrimary(UUID phoneId) {
 
         List<PhoneDto> allUserPhones = getByUserId(get(phoneId).getUserId());
         for (PhoneDto userPhone : allUserPhones) {
             userPhone.setPrimary(false);
         }
 
-        return get(phoneId)
-                .setPrimary(true);
+        return update(get(phoneId)
+                .setPrimary(true));
     }
 
+    /*public void startVerification(String countryCode, String phoneNumber, String via) {
+        Params params = new Params();
+        params.setAttribute("code_length", "4");
+        Verification verification = authyApiClient
+                .getPhoneVerification()
+                .start(phoneNumber, countryCode, via, params);
+
+        if(!verification.isOk()) {
+            logAndThrow("Error requesting phone verification. " +
+                    verification.getMessage());
+        }
+    }*/
 }
