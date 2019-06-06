@@ -2,7 +2,6 @@ package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.PhoneDto;
 
-import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.service.phone_service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
