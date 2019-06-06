@@ -30,4 +30,6 @@ public class Phone {
     private Boolean primary;
     @Column(name = "verified")
     private Boolean verified;
+    @Column(name = "verification_code")
+    private String verificationCode;
 }

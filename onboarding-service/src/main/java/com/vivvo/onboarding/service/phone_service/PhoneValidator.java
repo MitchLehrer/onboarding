@@ -70,7 +70,7 @@ public class PhoneValidator {
 
             String phoneNum = dto.getPhoneNumber().replaceAll("[^\\d]", "" );
 
-            if (phoneNum.matches("\\d{10}") || phoneNum.matches("\\d{3}[-\\.\\s]\\d{3}[-\\.\\s]\\d{4}") || phoneNum.matches("\\d{3}-\\d{3}-\\d{4}\\s(x|(ext))\\d{3,5}") || phoneNum.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+            if (phoneNum.matches("\\d{10}") || phoneNum.matches("\\d{11}") ) {
             } else {
                 errors.put("phoneNumber", INVALID_PHONE_NUMBER);
             }

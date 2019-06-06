@@ -17,6 +17,7 @@
 			<column name="phone_number" type="varchar(15)"/>
 			<column name="verified" type="boolean"/>
 			<column name="primary" type="boolean"/>
+			<column name="verification_code" type="varchar(4)"/>
 		</createTable>
 	</changeSet>
 

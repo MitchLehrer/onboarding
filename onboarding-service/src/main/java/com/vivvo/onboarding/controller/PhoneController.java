@@ -2,7 +2,6 @@ package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.PhoneDto;
 
-import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.service.phone_service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +27,6 @@ public class PhoneController {
         return phoneService.get(phoneId);
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PhoneDto create(@RequestBody PhoneDto dto, @PathVariable UUID userId) {
@@ -47,6 +45,16 @@ public class PhoneController {
         dto.setUserId(userId);
         dto.setPhoneId(phoneId);
         return phoneService.update(dto);
+    }
+
+    @PostMapping("/{phoneId}/sendVerificationCode")
+    public void sendVerificationCode(@PathVariable UUID phoneId){
+        phoneService.startTwilioVerify(phoneId);
+    }
+
+    @PostMapping("/{phoneId}/submitVerificationCode/{verificationCode}")
+    public PhoneDto submitVerificationCode(@PathVariable UUID phoneId, @PathVariable String verificationCode) {
+        return phoneService.verifyPhoneNumber(phoneId, verificationCode);
     }
 
     @PostMapping("/{phoneId}/set-primary")
