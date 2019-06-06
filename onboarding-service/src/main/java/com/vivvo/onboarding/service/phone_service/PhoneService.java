@@ -1,10 +1,7 @@
 package com.vivvo.onboarding.service.phone_service;
 
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
+
 import com.twilio.Twilio;
-import com.twilio.base.ResourceSet;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import com.vivvo.onboarding.PhoneDto;

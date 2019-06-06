@@ -117,7 +117,7 @@ public class UserClient {
 
     public PhoneDto verifyPhone(UUID userId, UUID phoneId, String verificationCode){
         return phoneTarget(userId, phoneId)
-                .path("verify")
+                .path("submitVerificationCode")
                 .path(verificationCode)
                 .request()
                 .post(Entity.json(verificationCode), PhoneDto.class);
