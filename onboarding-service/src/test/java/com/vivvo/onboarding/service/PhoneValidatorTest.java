@@ -42,7 +42,7 @@ public class PhoneValidatorTest {
 
     @Test
     public void testInvalidPhoneNumber_shouldFail(){
-        PhoneDto createdPhone = getValidPhoneDto().setPhoneNumber("1234567890XX");
+        PhoneDto createdPhone = getValidPhoneDto().setPhoneNumber("1234567890123");
         Map<String, String> errors = phoneValidator.validatePhoneNumber(createdPhone);
 
         assertEquals(1, errors.size());

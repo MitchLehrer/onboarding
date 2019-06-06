@@ -71,7 +71,7 @@ public class UserClient {
                 .path(userId.toString());
     }
 
-    public PhoneDto getByPhoneId(UUID userId, UUID phoneId){
+    public PhoneDto getPhone(UUID userId, UUID phoneId){
         return phoneTarget(userId, phoneId)
                 .request()
                 .get(PhoneDto.class);
@@ -106,6 +106,21 @@ public class UserClient {
                 .path("set-primary")
                 .request()
                 .post(Entity.json(phoneId), PhoneDto.class);
+    }
+
+    public PhoneDto createVerificationCode(UUID userId, UUID phoneId){
+        return phoneTarget(userId, phoneId)
+                .path("sendVerificationCode")
+                .request()
+                .post(Entity.json(phoneId), PhoneDto.class);
+    }
+
+    public PhoneDto verifyPhone(UUID userId, UUID phoneId, UUID verificationCode){
+        return phoneTarget(userId, phoneId)
+                .path("verify")
+                .path(verificationCode.toString())
+                .request()
+                .get(PhoneDto.class);
     }
 
     private WebTarget phoneTarget(UUID userId) {

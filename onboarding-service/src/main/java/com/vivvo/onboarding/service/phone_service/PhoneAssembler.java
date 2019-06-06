@@ -20,7 +20,8 @@ public class PhoneAssembler {
                 .setUserId(entity.getUserId())
                 .setPhoneNumber(entity.getPhoneNumber())
                 .setVerified(entity.getVerified())
-                .setPrimary(entity.getPrimary());
+                .setPrimary(entity.getPrimary())
+                .setVerificationCode(entity.getVerificationCode());
     }
 
     public Phone disassemble(PhoneDto dto) {
@@ -29,6 +30,7 @@ public class PhoneAssembler {
                 .setUserId(dto.getUserId())
                 .setPhoneNumber(dto.getPhoneNumber().replaceAll("[^\\d]", "" ))
                 .setVerified(dto.getVerified() == null ? false : dto.getVerified() )
-                .setPrimary(dto.getPrimary() == null ? false : dto.getPrimary() );
+                .setPrimary(dto.getPrimary() == null ? false : dto.getPrimary() )
+                .setVerificationCode(dto.getVerificationCode());
     }
 }

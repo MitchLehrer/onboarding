@@ -45,14 +45,14 @@ public class PhoneControllerTest {
     public void testCreateAndGetPhone_returnedObjectsShouldMatch() {
         UserDto createdUser = userClient.create(getValidUserDto());
         PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
-        PhoneDto getPhone = userClient.getByPhoneId(createdPhone.getUserId(), createdPhone.getPhoneId());
+        PhoneDto getPhone = userClient.getPhone(createdPhone.getUserId(), createdPhone.getPhoneId());
         assertEquals(createdPhone, getPhone);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetWithInvalidId_shouldReturnNotFound() {
         UserDto createdUser = userClient.create(getValidUserDto());
-        userClient.getByPhoneId(createdUser.getUserId(), new UUID(0,1));
+        userClient.getPhone(createdUser.getUserId(), new UUID(0,1));
     }
 
     @Test
@@ -85,8 +85,30 @@ public class PhoneControllerTest {
         UserDto createdUser = userClient.create(getValidUserDto());
         PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
         userClient.deletePhone(createdUser.getUserId(), createdPhone.getPhoneId());
-        userClient.getByPhoneId(createdUser.getUserId(), createdPhone.getPhoneId());
+        userClient.getPhone(createdUser.getUserId(), createdPhone.getPhoneId());
     }
+
+    @Test
+    public void testCreateVerificationCode_shouldReturnNotNull(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        assertNull(userClient.getPhone(createdPhone.getUserId(), createdPhone.getPhoneId()).getVerificationCode());
+        userClient.createVerificationCode(createdPhone.getUserId(),createdPhone.getPhoneId());
+        assertNotNull(userClient.getPhone(createdPhone.getUserId(), createdPhone.getPhoneId()).getVerificationCode());
+    }
+
+    //test verify phone number
+    @Test
+    public void testVerifyPhoneNumber_shouldSucceed(){
+        UserDto createdUser = userClient.create(getValidUserDto());
+        PhoneDto createdPhone = userClient.createPhone(createdUser.getUserId(), getValidPhoneDto());
+        userClient.createVerificationCode(createdPhone.getUserId(),createdPhone.getPhoneId());
+        PhoneDto updatedPhone = userClient.getPhone(createdPhone.getUserId(),createdPhone.getPhoneId());
+        assertTrue(userClient.verifyPhone(updatedPhone.getUserId(), updatedPhone.getPhoneId(), updatedPhone.getVerificationCode()).getVerified());
+
+    }
+
+    //test invalid verify phone number
 
     private UserDto getValidUserDto() {
         return new UserDto()
@@ -98,7 +120,7 @@ public class PhoneControllerTest {
 
     private PhoneDto getValidPhoneDto() {
         return new PhoneDto()
-                .setPhoneNumber("3065410371");
+                .setPhoneNumber("13065410371");
     }
 
 }

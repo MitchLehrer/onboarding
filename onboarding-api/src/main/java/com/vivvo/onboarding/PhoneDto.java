@@ -15,5 +15,6 @@ public class PhoneDto {
     private String phoneNumber;
     private Boolean primary;
     private Boolean verified;
+    private UUID verificationCode;
 
 }

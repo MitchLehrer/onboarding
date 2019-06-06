@@ -28,7 +28,6 @@ public class PhoneController {
         return phoneService.get(phoneId);
     }
 
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PhoneDto create(@RequestBody PhoneDto dto, @PathVariable UUID userId) {
@@ -49,9 +48,20 @@ public class PhoneController {
         return phoneService.update(dto);
     }
 
+    @PostMapping("/{phoneId}/sendVerificationCode")
+    public void CreateVerificationLink(@PathVariable UUID phoneId){
+        phoneService.startTwilioVerify(phoneId);
+    }
+
+    @GetMapping("/{phoneId}/verify/{verificationCode}")
+    public PhoneDto verify(@PathVariable UUID phoneId, @PathVariable UUID verificationCode) {
+        return phoneService.verifyPhoneNumber(phoneId, verificationCode);
+    }
+
     @PostMapping("/{phoneId}/set-primary")
     public PhoneDto SetPrimary(@PathVariable UUID phoneId){
         return phoneService.makePrimary(phoneId);
     }
+
 
 }

@@ -1,5 +1,12 @@
 package com.vivvo.onboarding.service.phone_service;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.twilio.Twilio;
+import com.twilio.base.ResourceSet;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.exception.NotFoundException;
@@ -8,15 +15,15 @@ import com.vivvo.onboarding.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import javax.ws.rs.BadRequestException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 public class PhoneService {
+    private static final String AUTH_TOKEN = "15811c180ff7f9d241ef28744f238e48";
+    private static final String ACCOUNT_SID = "ACf6b24a08ebbd871fe07fb219cb03844d";
 
     @Autowired
     private PhoneRepository phoneRepository;
@@ -35,11 +42,13 @@ public class PhoneService {
 
         dto.setVerified(false);
 
-        return Optional.of(dto)
+        PhoneDto newPhone = Optional.of(dto)
                 .map(phoneAssembler::disassemble)
                 .map(phoneRepository::save)
                 .map(phoneAssembler::assemble)
                 .orElseThrow(IllegalArgumentException::new);
+
+        return newPhone;
     }
 
 
@@ -91,16 +100,49 @@ public class PhoneService {
                 .setPrimary(true));
     }
 
-    /*public void startVerification(String countryCode, String phoneNumber, String via) {
-        Params params = new Params();
-        params.setAttribute("code_length", "4");
-        Verification verification = authyApiClient
-                .getPhoneVerification()
-                .start(phoneNumber, countryCode, via, params);
+    public void startTwilioVerify(UUID phoneID){
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-        if(!verification.isOk()) {
-            logAndThrow("Error requesting phone verification. " +
-                    verification.getMessage());
+        PhoneDto dto = get(phoneID);
+
+        UUID verificationCode = UUID.randomUUID();
+
+        update(get(dto.getPhoneId()).setVerificationCode(verificationCode));
+
+        Message message = Message.creator(new PhoneNumber(dto.getPhoneNumber()),
+                new PhoneNumber("+13069943159"),
+                "Click this to verify your phone number: " + "http://localhost:4444/api/v1/users/" + dto.getUserId() + "/phones/" + dto.getPhoneId() + "/verify/" + dto.getVerificationCode())
+                .create();
+
+
+        ListenableFuture<ResourceSet<Message>> future = Message.reader().readAsync();
+        Futures.addCallback(
+                future,
+                new FutureCallback<ResourceSet<Message>>() {
+                    public void onSuccess(ResourceSet<Message> messages) {
+                        for (Message message : messages) {
+                            System.out.println(message.getSid() + " : " + message.getStatus());
+                        }
+                    }
+                    public void onFailure(Throwable t) {
+                        System.out.println("Failed to get message status: " + t.getMessage());
+                    }
+                });
+
+    }
+
+    public PhoneDto verifyPhoneNumber(UUID phoneId, UUID verificationCode){
+        PhoneDto phone = get(phoneId);
+
+        if(phone.getVerified()){
+            return phone;
         }
-    }*/
+
+        if(phone.getVerificationCode() != null && phone.getVerificationCode().equals(verificationCode)){
+            return update(phone.setVerified(true));
+        }else{
+            throw new BadRequestException();
+        }
+    }
+
 }

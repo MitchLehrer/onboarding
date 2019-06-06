@@ -11,7 +11,5 @@ import java.util.UUID;
 public interface PhoneRepository extends JpaRepository<Phone, UUID> {
 
     List<Phone> findByUserId(UUID userId);
-
-    Boolean existsByPhoneNumber (String phoneNumber);
 }
 
