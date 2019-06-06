@@ -84,7 +84,7 @@ public class PhoneService {
 
         List<PhoneDto> allUserPhones = getByUserId(get(phoneId).getUserId());
         for (PhoneDto userPhone : allUserPhones) {
-            userPhone.setPrimary(false);
+            update(userPhone.setPrimary(false));
         }
 
         return update(get(phoneId)
