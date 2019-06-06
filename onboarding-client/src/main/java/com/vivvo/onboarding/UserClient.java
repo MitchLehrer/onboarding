@@ -115,12 +115,12 @@ public class UserClient {
                 .post(Entity.json(phoneId), PhoneDto.class);
     }
 
-    public PhoneDto verifyPhone(UUID userId, UUID phoneId, UUID verificationCode){
+    public PhoneDto verifyPhone(UUID userId, UUID phoneId, String verificationCode){
         return phoneTarget(userId, phoneId)
                 .path("verify")
-                .path(verificationCode.toString())
+                .path(verificationCode)
                 .request()
-                .get(PhoneDto.class);
+                .post(Entity.json(verificationCode), PhoneDto.class);
     }
 
     private WebTarget phoneTarget(UUID userId) {

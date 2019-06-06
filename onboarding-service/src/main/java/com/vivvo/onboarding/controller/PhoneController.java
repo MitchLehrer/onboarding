@@ -49,12 +49,13 @@ public class PhoneController {
     }
 
     @PostMapping("/{phoneId}/sendVerificationCode")
-    public void CreateVerificationLink(@PathVariable UUID phoneId){
+    public void sendVerificationCode(@PathVariable UUID phoneId){
         phoneService.startTwilioVerify(phoneId);
     }
 
-    @GetMapping("/{phoneId}/verify/{verificationCode}")
-    public PhoneDto verify(@PathVariable UUID phoneId, @PathVariable UUID verificationCode) {
+    @PostMapping("/{phoneId}/submitVerificationCode")
+    public PhoneDto submitVerificationCode(@PathVariable UUID phoneId, @RequestBody String verificationCode) {
+        System.out.println(verificationCode);
         return phoneService.verifyPhoneNumber(phoneId, verificationCode);
     }
 
@@ -62,6 +63,5 @@ public class PhoneController {
     public PhoneDto SetPrimary(@PathVariable UUID phoneId){
         return phoneService.makePrimary(phoneId);
     }
-
-
+    
 }

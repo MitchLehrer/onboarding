@@ -105,17 +105,18 @@ public class PhoneService {
 
         PhoneDto dto = get(phoneID);
 
-        UUID verificationCode = UUID.randomUUID();
+        Random randomCode = new Random();
+
+        String verificationCode = String.format("%04d", randomCode.nextInt(10000));
 
         update(get(dto.getPhoneId()).setVerificationCode(verificationCode));
 
         Message message = Message.creator(new PhoneNumber(dto.getPhoneNumber()),
                 new PhoneNumber("+13069943159"),
-                "Click this to verify your phone number: " + "http://localhost:4444/api/v1/users/" + dto.getUserId() + "/phones/" + dto.getPhoneId() + "/verify/" + dto.getVerificationCode())
+                "Your verification code for is: " + verificationCode)
                 .create();
 
-
-        ListenableFuture<ResourceSet<Message>> future = Message.reader().readAsync();
+        /*ListenableFuture<ResourceSet<Message>> future = Message.reader().readAsync();
         Futures.addCallback(
                 future,
                 new FutureCallback<ResourceSet<Message>>() {
@@ -127,11 +128,10 @@ public class PhoneService {
                     public void onFailure(Throwable t) {
                         System.out.println("Failed to get message status: " + t.getMessage());
                     }
-                });
-
+                });*/
     }
 
-    public PhoneDto verifyPhoneNumber(UUID phoneId, UUID verificationCode){
+    public PhoneDto verifyPhoneNumber(UUID phoneId, String verificationCode){
         PhoneDto phone = get(phoneId);
 
         if(phone.getVerified()){
@@ -139,7 +139,7 @@ public class PhoneService {
         }
 
         if(phone.getVerificationCode() != null && phone.getVerificationCode().equals(verificationCode)){
-            return update(phone.setVerified(true));
+            return update(phone.setVerified(true).setVerificationCode(null));
         }else{
             throw new BadRequestException();
         }
