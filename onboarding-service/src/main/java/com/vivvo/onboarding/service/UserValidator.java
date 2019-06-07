@@ -1,4 +1,4 @@
-package com.vivvo.onboarding.service.user_service;
+package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.User;

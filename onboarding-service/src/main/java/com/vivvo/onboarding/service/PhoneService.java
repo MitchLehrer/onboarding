@@ -1,4 +1,4 @@
-package com.vivvo.onboarding.service.phone_service;
+package com.vivvo.onboarding.service;
 
 
 import com.twilio.Twilio;
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PhoneService {
-    private static final String AUTH_TOKEN = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    private static final String ACCOUNT_SID = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    private static final String AUTH_TOKEN = "15811c180ff7f9d241ef28744f238e48";
+    private static final String ACCOUNT_SID = "ACf6b24a08ebbd871fe07fb219cb03844d";
 
     @Autowired
     private PhoneRepository phoneRepository;
@@ -62,9 +62,10 @@ public class PhoneService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public PhoneDto get(UUID phoneId) {
-        return phoneRepository.findById(phoneId)
+    public PhoneDto get(UUID userId, UUID phoneId) {
+        return phoneRepository.findByUserIdAndPhoneId(userId, phoneId)
                 .map(phoneAssembler::assemble)
+                .collect(Collectors.toList())
                 .orElseThrow(() -> new NotFoundException(phoneId));
     }
 
@@ -86,14 +87,14 @@ public class PhoneService {
         }
     }
 
-    public PhoneDto makePrimary(UUID phoneId) {
+    public PhoneDto makePrimary(UUID userId, UUID phoneId) {
 
-        List<PhoneDto> allUserPhones = getByUserId(get(phoneId).getUserId());
+        List<PhoneDto> allUserPhones = getByUserId(userId);
         for (PhoneDto userPhone : allUserPhones) {
             update(userPhone.setPrimary(false));
         }
 
-        return update(get(phoneId)
+        return update(get(userId, phoneId)
                 .setPrimary(true));
     }
 
@@ -112,20 +113,6 @@ public class PhoneService {
                 new PhoneNumber("+13069943159"),
                 "Your verification code for is: " + verificationCode)
                 .create();
-
-        /*ListenableFuture<ResourceSet<Message>> future = Message.reader().readAsync();
-        Futures.addCallback(
-                future,
-                new FutureCallback<ResourceSet<Message>>() {
-                    public void onSuccess(ResourceSet<Message> messages) {
-                        for (Message message : messages) {
-                            System.out.println(message.getSid() + " : " + message.getStatus());
-                        }
-                    }
-                    public void onFailure(Throwable t) {
-                        System.out.println("Failed to get message status: " + t.getMessage());
-                    }
-                });*/
     }
 
     public PhoneDto verifyPhoneNumber(UUID phoneId, String verificationCode){
