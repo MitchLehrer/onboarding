@@ -52,7 +52,9 @@ public class PhoneControllerTest {
     @Test(expected = NotFoundException.class)
     public void testGetWithInvalidId_shouldReturnNotFound() {
         UserDto createdUser = userClient.create(getValidUserDto());
-        userClient.getPhone(createdUser.getUserId(), new UUID(0,1));
+        UUID randomId =  new UUID(0,1);
+        assertNotEquals(createdUser.getUserId(), randomId);
+        userClient.getPhone(createdUser.getUserId(), randomId);
     }
 
     @Test

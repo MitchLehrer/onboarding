@@ -2,7 +2,7 @@ package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.PhoneDto;
 
-import com.vivvo.onboarding.service.phone_service.PhoneService;
+import com.vivvo.onboarding.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,8 @@ public class PhoneController {
     }
 
     @GetMapping("/{phoneId}")
-    public PhoneDto get(@PathVariable UUID phoneId) {
-        return phoneService.get(phoneId);
+    public PhoneDto get(@PathVariable UUID userId, @PathVariable UUID phoneId) {
+        return phoneService.get(userId, phoneId);
     }
 
     @PostMapping
@@ -36,7 +36,7 @@ public class PhoneController {
 
     @DeleteMapping("/{phoneId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID phoneId) {
+    public void delete(@PathVariable UUID userId, @PathVariable UUID phoneId) {
         phoneService.delete(phoneId);
     }
 
@@ -48,18 +48,18 @@ public class PhoneController {
     }
 
     @PostMapping("/{phoneId}/sendVerificationCode")
-    public void sendVerificationCode(@PathVariable UUID phoneId){
-        phoneService.startTwilioVerify(phoneId);
+    public void sendVerificationCode(@PathVariable UUID userId, @PathVariable UUID phoneId){
+        phoneService.startTwilioVerify(userId, phoneId);
     }
 
     @PostMapping("/{phoneId}/submitVerificationCode/{verificationCode}")
-    public PhoneDto submitVerificationCode(@PathVariable UUID phoneId, @PathVariable String verificationCode) {
-        return phoneService.verifyPhoneNumber(phoneId, verificationCode);
+    public PhoneDto submitVerificationCode(@PathVariable UUID userId, @PathVariable UUID phoneId, @PathVariable String verificationCode) {
+        return phoneService.verifyPhoneNumber(userId, phoneId, verificationCode);
     }
 
     @PostMapping("/{phoneId}/set-primary")
-    public PhoneDto SetPrimary(@PathVariable UUID phoneId){
-        return phoneService.makePrimary(phoneId);
+    public PhoneDto SetPrimary(@PathVariable UUID userId, @PathVariable UUID phoneId){
+        return phoneService.makePrimary(userId, phoneId);
     }
 
 }

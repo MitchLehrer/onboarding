@@ -2,13 +2,8 @@ package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.repository.PhoneRepository;
-import com.vivvo.onboarding.service.phone_service.PhoneValidator;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
 import java.util.UUID;
@@ -17,9 +12,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Sql(scripts = "classpath:teardown.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class PhoneValidatorTest {
 
 

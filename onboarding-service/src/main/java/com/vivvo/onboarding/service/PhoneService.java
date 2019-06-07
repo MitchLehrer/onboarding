@@ -1,9 +1,11 @@
-package com.vivvo.onboarding.service.phone_service;
+package com.vivvo.onboarding.service;
 
 
+import com.sun.tools.internal.ws.wsdl.framework.DuplicateEntityException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import com.vivvo.onboarding.ApplicationProperties;
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.exception.NotFoundException;
@@ -13,14 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.ws.rs.BadRequestException;
+import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Service
 public class PhoneService {
-    private static final String AUTH_TOKEN = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
-    private static final String ACCOUNT_SID = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
     @Autowired
     private PhoneRepository phoneRepository;
@@ -30,6 +31,9 @@ public class PhoneService {
 
     @Autowired
     private PhoneValidator phoneValidator;
+
+    @Autowired
+    private ApplicationProperties applicationProperties;
 
     public PhoneDto create(PhoneDto dto) {
         Map<String, String> errors = phoneValidator.validate(dto);
@@ -62,10 +66,10 @@ public class PhoneService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public PhoneDto get(UUID phoneId) {
-        return phoneRepository.findById(phoneId)
+    public PhoneDto get(UUID userId, UUID phoneId) {
+        return  Optional.ofNullable(phoneRepository.findByUserIdAndPhoneId(userId, phoneId))
                 .map(phoneAssembler::assemble)
-                .orElseThrow(() -> new NotFoundException(phoneId));
+                .orElseThrow(()->new NotFoundException(phoneId));
     }
 
 
@@ -86,50 +90,36 @@ public class PhoneService {
         }
     }
 
-    public PhoneDto makePrimary(UUID phoneId) {
+    public PhoneDto makePrimary(UUID userId, UUID phoneId) {
 
-        List<PhoneDto> allUserPhones = getByUserId(get(phoneId).getUserId());
+        List<PhoneDto> allUserPhones = getByUserId(userId);
         for (PhoneDto userPhone : allUserPhones) {
             update(userPhone.setPrimary(false));
         }
 
-        return update(get(phoneId)
+        return update(get(userId, phoneId)
                 .setPrimary(true));
     }
 
-    public void startTwilioVerify(UUID phoneID){
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+    public void startTwilioVerify(UUID userId, UUID phoneID){
+        Twilio.init(applicationProperties.getTwillo().getACCOUNT_SID(), applicationProperties.getTwillo().getAUTH_TOKEN());
 
-        PhoneDto dto = get(phoneID);
+        PhoneDto dto = get(userId, phoneID);
 
-        Random randomCode = new Random();
+        SecureRandom randomCode = new SecureRandom();
 
         String verificationCode = String.format("%04d", randomCode.nextInt(10000));
 
-        update(get(dto.getPhoneId()).setVerificationCode(verificationCode));
+        update(get(dto.getUserId(), dto.getPhoneId()).setVerificationCode(verificationCode));
 
         Message message = Message.creator(new PhoneNumber(dto.getPhoneNumber()),
                 new PhoneNumber("+13069943159"),
                 "Your verification code for is: " + verificationCode)
                 .create();
-
-        /*ListenableFuture<ResourceSet<Message>> future = Message.reader().readAsync();
-        Futures.addCallback(
-                future,
-                new FutureCallback<ResourceSet<Message>>() {
-                    public void onSuccess(ResourceSet<Message> messages) {
-                        for (Message message : messages) {
-                            System.out.println(message.getSid() + " : " + message.getStatus());
-                        }
-                    }
-                    public void onFailure(Throwable t) {
-                        System.out.println("Failed to get message status: " + t.getMessage());
-                    }
-                });*/
     }
 
-    public PhoneDto verifyPhoneNumber(UUID phoneId, String verificationCode){
-        PhoneDto phone = get(phoneId);
+    public PhoneDto verifyPhoneNumber(UUID userId, UUID phoneId, String verificationCode){
+        PhoneDto phone = get(userId, phoneId);
 
         if(phone.getVerified()){
             return phone;
