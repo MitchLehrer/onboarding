@@ -1,7 +1,7 @@
 package com.vivvo;
 
-import com.vivvo.onboarding.UserClient;
 
+import com.vivvo.onboarding.UserClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -3,6 +3,7 @@ package com.vivvo.onboarding.controller;
 import com.vivvo.onboarding.PhoneDto;
 
 import com.vivvo.onboarding.UserClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/users/{userId}/phones")
 public class BFFPhoneController {
 
-
+    @Autowired
     private UserClient userClient;
 
     @GetMapping

@@ -3,21 +3,16 @@ apply plugin: 'org.springframework.boot'
 dependencies {
     compile project(':onboarding-api')
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-	compile 'org.liquibase:liquibase-core'
-	compile 'org.hsqldb:hsqldb'
     compile 'org.glassfish.jersey.core:jersey-client'
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson'
     compile 'org.glassfish.jersey.inject:jersey-hk2'
     compile 'org.apache.commons:commons-lang3:3.9'
 
     compileOnly 'org.projectlombok:lombok:1.18.4'
-    testCompile project(':onboarding-client')
     
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile("junit:junit")
-
-    compile group: "com.twilio.sdk", name: "twilio", version: "7.38.1"
+    
 }
 
 
