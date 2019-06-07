@@ -10,8 +10,6 @@ import java.util.UUID;
 @Repository
 public interface PhoneRepository extends JpaRepository<Phone, UUID> {
 
-    Phone findByUserIdAndPhoneId(UUID userId, UUID phoneId);
-
     List<Phone> findByUserId(UUID userId);
 }
 

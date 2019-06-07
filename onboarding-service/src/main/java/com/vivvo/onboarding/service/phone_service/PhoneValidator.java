@@ -1,4 +1,4 @@
-package com.vivvo.onboarding.service;
+package com.vivvo.onboarding.service.phone_service;
 
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.repository.PhoneRepository;

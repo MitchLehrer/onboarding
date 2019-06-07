@@ -1,4 +1,4 @@
-package com.vivvo.onboarding.service;
+package com.vivvo.onboarding.service.user_service;
 
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.UserDto;
@@ -6,6 +6,8 @@ import com.vivvo.onboarding.entity.User;
 import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.UserRepository;
+import com.vivvo.onboarding.service.phone_service.PhoneService;
+import com.vivvo.onboarding.service.phone_service.PhoneValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
