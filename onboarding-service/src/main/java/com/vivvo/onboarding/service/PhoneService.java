@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class PhoneService {
-    private static final String AUTH_TOKEN = "15811c180ff7f9d241ef28744f238e48";
-    private static final String ACCOUNT_SID = "ACf6b24a08ebbd871fe07fb219cb03844d";
+    private static final String AUTH_TOKEN = "";
+    private static final String ACCOUNT_SID = "";
 
     @Autowired
     private PhoneRepository phoneRepository;

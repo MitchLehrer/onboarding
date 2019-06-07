@@ -58,8 +58,8 @@ public class PhoneController {
     }
 
     @PostMapping("/{phoneId}/set-primary")
-    public PhoneDto SetPrimary(@PathVariable UUID phoneId){
-        return phoneService.makePrimary(phoneId);
+    public PhoneDto SetPrimary(@PathVariable UUID userId, @PathVariable UUID phoneId){
+        return phoneService.makePrimary(userId, phoneId);
     }
 
 }
