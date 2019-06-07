@@ -36,7 +36,7 @@ public class PhoneController {
 
     @DeleteMapping("/{phoneId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable UUID phoneId) {
+    public void delete(@PathVariable UUID userId, @PathVariable UUID phoneId) {
         phoneService.delete(phoneId);
     }
 
@@ -48,13 +48,13 @@ public class PhoneController {
     }
 
     @PostMapping("/{phoneId}/sendVerificationCode")
-    public void sendVerificationCode(@PathVariable UUID phoneId){
-        phoneService.startTwilioVerify(phoneId);
+    public void sendVerificationCode(@PathVariable UUID userId, @PathVariable UUID phoneId){
+        phoneService.startTwilioVerify(userId, phoneId);
     }
 
     @PostMapping("/{phoneId}/submitVerificationCode/{verificationCode}")
-    public PhoneDto submitVerificationCode(@PathVariable UUID phoneId, @PathVariable String verificationCode) {
-        return phoneService.verifyPhoneNumber(phoneId, verificationCode);
+    public PhoneDto submitVerificationCode(@PathVariable UUID userId, @PathVariable UUID phoneId, @PathVariable String verificationCode) {
+        return phoneService.verifyPhoneNumber(userId, phoneId, verificationCode);
     }
 
     @PostMapping("/{phoneId}/set-primary")
