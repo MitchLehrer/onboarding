@@ -1,8 +1,7 @@
-package com.vivvo.onboarding.service.user_service;
+package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.entity.User;
-import com.vivvo.onboarding.service.phone_service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -11,6 +11,8 @@
 			<column name="first_name" type="varchar(50)"/>
 			<column name="last_name" type="varchar(50)"/>
 		</createTable>
+	</changeSet>
+	<changeSet author="lehrerm" id="create-phone-table" >
 		<createTable tableName="phone">
 			<column name="phone_id" type="varchar(36)"/>
 			<column name="user_id" type="varchar(36)"/>

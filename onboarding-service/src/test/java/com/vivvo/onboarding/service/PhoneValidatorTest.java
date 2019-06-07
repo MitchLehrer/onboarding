@@ -2,7 +2,6 @@ package com.vivvo.onboarding.service;
 
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.repository.PhoneRepository;
-import com.vivvo.onboarding.service.phone_service.PhoneValidator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

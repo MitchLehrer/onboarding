@@ -2,7 +2,7 @@ package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.PhoneDto;
 
-import com.vivvo.onboarding.service.phone_service.PhoneService;
+import com.vivvo.onboarding.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +23,8 @@ public class PhoneController {
     }
 
     @GetMapping("/{phoneId}")
-    public PhoneDto get(@PathVariable UUID phoneId) {
-        return phoneService.get(phoneId);
+    public PhoneDto get(@PathVariable UUID userId, @PathVariable UUID phoneId) {
+        return phoneService.get(userId, phoneId);
     }
 
     @PostMapping
