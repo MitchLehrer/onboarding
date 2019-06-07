@@ -15,7 +15,9 @@ public class BFF {
 
     @Bean
     public UserClient userClient() {
-        return new UserClient();
+        UserClient userClient = new UserClient();
+        userClient.setBaseUri("http://localhost:4444");
+        return userClient;
     }
 }
 
