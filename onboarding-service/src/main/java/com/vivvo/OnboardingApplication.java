@@ -8,18 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.MessageSourceAccessor;
 
 @SpringBootApplication
-public class OnboadingApplication {
-
-    //TODO implement find for users
-    // use twillio to send an sms code and verify a phone number (more actions)
-
-
+public class OnboardingApplication {
 
     @Autowired
     private MessageSource messageSource;
 
     public static void main(String[] args) {
-        SpringApplication.run(OnboadingApplication.class, args);
+        SpringApplication.run(OnboardingApplication.class, args);
     }
 
     @Bean
