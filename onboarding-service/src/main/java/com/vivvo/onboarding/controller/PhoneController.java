@@ -1,4 +1,4 @@
-package com.vivvo.bff.controller;
+package com.vivvo.onboarding.controller;
 
 import com.vivvo.onboarding.PhoneDto;
 
