@@ -44,6 +44,12 @@ public class UserClient {
                 .get(UserDto.class);
     }
 
+    public List<UserDto> getAll() {
+        return userTarget()
+                .request()
+                .get(new GenericType<List<UserDto>>(){});
+    }
+
     public List<UserDto> getByFirstName(String firstName) {
         return userTarget()
                 .queryParam("firstName", firstName)

@@ -2,7 +2,6 @@ dependencies {
     compile project(':onboarding-api')
     
     compile 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
     compile 'org.glassfish.jersey.core:jersey-client'
     compile 'org.glassfish.jersey.media:jersey-media-json-jackson'
 }
