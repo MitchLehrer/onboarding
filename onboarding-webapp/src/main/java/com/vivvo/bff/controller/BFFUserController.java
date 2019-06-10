@@ -1,7 +1,8 @@
-package com.vivvo.onboarding.controller;
+package com.vivvo.bff.controller;
 
+
+import com.vivvo.onboarding.UserClient;
 import com.vivvo.onboarding.UserDto;
-import com.vivvo.onboarding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,46 +12,46 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/users")
-public class UserController {
+public class BFFUserController {
 
     @Autowired
-    private UserService userService;
+    private UserClient userClient;
 
     @GetMapping
     public List<UserDto> find() {
-        return userService.getAll();
+        return userClient.getAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto create(@RequestBody UserDto dto) {
-        return userService.create(dto);
+        return userClient.create(dto);
     }
 
     @GetMapping("/{userId}")
     public UserDto get(@PathVariable UUID userId) {
-        return userService.get(userId);
+        return userClient.get(userId);
     }
 
     @GetMapping(params = "firstName")
     public List<UserDto> getByFirstName(@RequestParam String firstName) {
-        return userService.getByFirstName(firstName);
+        return userClient.getByFirstName(firstName);
     }
 
     @GetMapping(params = "lastName")
     public List<UserDto> getByLastName(@RequestParam String lastName) {
-        return userService.getByLastName(lastName);
+        return userClient.getByLastName(lastName);
     }
 
     @DeleteMapping("/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable UUID userId) {
-        userService.delete(userId);
+        userClient.delete(userId);
     }
 
     @PutMapping("/{userId}")
     public UserDto update(@PathVariable UUID userId, @RequestBody UserDto dto) {
         dto.setUserId(userId);
-        return userService.update(dto);
+        return userClient.update(dto);
     }
 }

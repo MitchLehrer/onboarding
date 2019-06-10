@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @Data
 public class ApplicationProperties {
 
-    private TwillioProperties twillo = new TwillioProperties();
+    private TwilioProperties twilio = new TwilioProperties();
 
     @Data
-    public static class TwillioProperties {
+    public static class TwilioProperties {
         //FIXME doesn't follow java variable naming conventions
         private String AUTH_TOKEN;
         private String ACCOUNT_SID;

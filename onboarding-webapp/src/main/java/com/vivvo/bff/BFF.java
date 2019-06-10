@@ -1,5 +1,4 @@
-package com.vivvo;
-
+package com.vivvo.bff;
 
 import com.vivvo.onboarding.UserClient;
 import org.springframework.boot.SpringApplication;

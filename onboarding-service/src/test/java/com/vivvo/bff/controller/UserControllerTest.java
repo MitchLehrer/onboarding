@@ -1,4 +1,4 @@
-package com.vivvo.onboarding.controller;
+package com.vivvo.bff.controller;
 
 import com.vivvo.onboarding.UserClient;
 import com.vivvo.onboarding.UserDto;
