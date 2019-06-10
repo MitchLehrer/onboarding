@@ -14,9 +14,8 @@ public class ApplicationProperties {
 
     @Data
     public static class TwilioProperties {
-        //FIXME doesn't follow java variable naming conventions
-        private String AUTH_TOKEN;
-        private String ACCOUNT_SID;
+        private String authToken;
+        private String accountSID;
 
     }
 }

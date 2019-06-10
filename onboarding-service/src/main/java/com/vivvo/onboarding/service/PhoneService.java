@@ -102,7 +102,7 @@ public class PhoneService {
     }
 
     public void startTwilioVerify(UUID userId, UUID phoneID){
-        Twilio.init(applicationProperties.getTwilio().getACCOUNT_SID(), applicationProperties.getTwilio().getAUTH_TOKEN());
+        Twilio.init(applicationProperties.getTwilio().getAccountSID(), applicationProperties.getTwilio().getAuthToken());
 
         PhoneDto dto = get(userId, phoneID);
 
