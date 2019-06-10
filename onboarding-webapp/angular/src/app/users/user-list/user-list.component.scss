@@ -1,0 +1,22 @@
+.user-list{
+    .user-id{
+        font-size:0.75em;
+    }
+
+    tr{
+        transition:0.2s all ease-in;
+    }
+
+    tr:hover{
+        background-color:#f6f9fc;
+        cursor:pointer;
+    }
+
+    tr i{
+        transition:0.1s all ease-in;
+    }
+
+    tr i:hover{
+        color:#007bff;
+    }
+}
