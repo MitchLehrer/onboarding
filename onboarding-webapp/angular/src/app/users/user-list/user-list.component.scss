@@ -1,4 +1,26 @@
+.user-search{
+    position: relative;
+
+    .fa-search{
+        position: absolute;
+        top:50%;
+        left: 10px;
+        transform:translateY(-50%);
+        opacity:0.8;
+        font-size:13px;
+    }
+
+    input{
+        padding-left:30px;
+    }
+}
+
 .user-list{
+
+    background-color: #fff;
+    border-radius:5px;
+    overflow: hidden;
+
     .user-id{
         font-size:0.75em;
     }
@@ -7,16 +29,43 @@
         transition:0.2s all ease-in;
     }
 
-    tr:hover{
+    tr td:last-child{
+        width:1%;
+        white-space:nowrap;
+
+        .btn-group .btn{
+            width:48%;
+            text-align:center;
+            padding: 5px 3px;
+            line-height:1;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    
+
+    th,td{
+        padding: 0.55rem;
+        font-size: 14px;
+    }
+
+    th{
+        border-top:0;
+        border-bottom-color: rgba(26, 54, 126, 0.11);
+    }
+
+    tbody tr:hover{
         background-color:#f6f9fc;
         cursor:pointer;
     }
 
     tr i{
         transition:0.1s all ease-in;
+        opacity:0.8;
     }
 
     tr i:hover{
         color:#007bff;
+        opacity:1;
     }
 }

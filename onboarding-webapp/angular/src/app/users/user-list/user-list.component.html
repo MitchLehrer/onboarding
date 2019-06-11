@@ -1,13 +1,20 @@
-<div class="container">
-  <div class="mt-4 mb-2 d-flex ">
-    <h4 class="mb-0 mr-2 align-self-center">All Users</h4>
-    <button (click)="refreshUserList()" class="btn btn-link btn-sm mr-auto" type="button"><i
-        class="fas fa-redo fa-xs mr-1"></i>Refresh Users</button>
-    <button class="btn btn-primary" type="button" routerLink="/create-user"><i class="fas fa-plus fa-xs mr-1"></i>Create a User</button>
+<div class="container-fluid bg-faded">
+  <div class="container">
+    <div class="d-flex py-3">
+      <h4 class="mb-0 mr-auto align-self-center">All Users</h4>
+      <button (click)="refreshUserList()" class="btn btn-link btn-sm mr-2" type="button"><i
+          class="fas fa-redo fa-xs mr-1"></i>Refresh Users</button>
+      <button class="btn btn-primary shadow-sm" type="button" routerLink="/create-user"><i
+          class="fas fa-plus fa-xs mr-1"></i>Create a User</button>
+    </div>
+  </div>
+</div>
+<div class="container py-3">
+  <div class="mb-3 shadow-sm user-search text-muted"><i class="fas fa-search fa"></i><input class="form-control border-0" type="text" placeholder="Search" aria-label="Search">
   </div>
 
-  <table class="table">
-    <thead class="thead-light">
+  <table class="table table-sm user-list card-shadow">
+    <thead>
       <tr>
         <th scope="col">Username</th>
         <th scope="col">First Name</th>
@@ -15,12 +22,17 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody class="user-list">
-      <tr *ngFor="let user of users" (click)="navigateToUser(user)" >
-        <td class ="align-middle">{{ user.username}}</td>
-        <td class ="align-middle">{{ user.firstName }}</td>
-        <td class ="align-middle">{{ user.lastName }}</td>
-        <td class ="align-middle"><i class="far fa-edit m-12"></i> <i class="fas fa-trash-alt m-2"></i></td>
+    <tbody>
+      <tr *ngFor="let user of users" (click)="navigateToUser(user)">
+        <td class="align-middle">{{ user.username}}</td>
+        <td class="align-middle">{{ user.firstName }}</td>
+        <td class="align-middle">{{ user.lastName }}</td>
+        <td class="align-middle">
+          <div class="btn-group btn-group-sm" role="group"><button type="button" class="btn p-2 text-muted"><i
+                class="far fa-edit"></i></button><button type="button" class="btn p-2 text-muted"><i
+                class="fas fa-trash-alt"></i></button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>
