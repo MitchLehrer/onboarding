@@ -26,6 +26,11 @@ public class ApplicationExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<Map> handlePhoneVerificationException(PhoneVerificationException exception) {
+        return ResponseEntity.badRequest().body(Collections.singletonMap("phoneNumber", exception.getMessage()));
+    }
+
+    @ExceptionHandler
     public ResponseEntity<Map> handleValidationException(ValidationException exception) {
         return ResponseEntity.badRequest().body(getTranslatedErrors(exception.getErrors()));
     }

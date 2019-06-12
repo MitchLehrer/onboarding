@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../models/user';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DeleteUserComponent } from '../delete-user/delete-user.component';
 
 @Component({
   selector: 'app-user-list',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private dialog: MatDialog, private userService: UserService, private router: Router) { }
 
   users: User[];
 
@@ -30,5 +32,20 @@ export class UserListComponent implements OnInit {
     console.log(user);
     this.router.navigateByUrl('/users/'+ user.userId);
   };
+
+  confirmDelete(user:User){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data ={user : user}
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
+
+    let dialogRef = this.dialog.open(DeleteUserComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => this.refreshUserList()
+    );    
+  }
 
 }

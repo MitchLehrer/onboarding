@@ -1,21 +1,4 @@
-.user-search{
-    position: relative;
-
-    .fa-search{
-        position: absolute;
-        top:50%;
-        left: 10px;
-        transform:translateY(-50%);
-        font-size:13px;
-    }
-
-    input{
-        padding-left:30px;
-        font-size:14px;
-    }
-}
-
-.user-list{
+.phone-list{
 
     tr td:last-child{
         width:1%;
@@ -45,4 +28,9 @@
         color:#dc3545;
         opacity:1;
     }
+
+    .verify-phone-link{
+        font-size:11px;
+    }
+
 }

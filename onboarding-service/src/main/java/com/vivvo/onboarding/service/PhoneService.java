@@ -1,14 +1,15 @@
 package com.vivvo.onboarding.service;
 
-
-import com.sun.tools.internal.ws.wsdl.framework.DuplicateEntityException;
 import com.twilio.Twilio;
+import com.twilio.exception.ApiException;
+import com.twilio.exception.TwilioException;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import com.vivvo.onboarding.ApplicationProperties;
 import com.vivvo.onboarding.PhoneDto;
 import com.vivvo.onboarding.entity.Phone;
 import com.vivvo.onboarding.exception.NotFoundException;
+import com.vivvo.onboarding.exception.PhoneVerificationException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,12 +111,16 @@ public class PhoneService {
 
         String verificationCode = String.format("%04d", randomCode.nextInt(10000));
 
-        update(get(dto.getUserId(), dto.getPhoneId()).setVerificationCode(verificationCode));
+        try {
+            Message.creator(new PhoneNumber(dto.getPhoneNumber()),
+                    new PhoneNumber("+13069943159"),
+                    "Your verification code for is: " + verificationCode)
+                    .create();
+        } catch (TwilioException e) {
+            throw new PhoneVerificationException(e.getMessage(), e);
+        }
 
-        Message message = Message.creator(new PhoneNumber(dto.getPhoneNumber()),
-                new PhoneNumber("+13069943159"),
-                "Your verification code for is: " + verificationCode)
-                .create();
+        update(get(dto.getUserId(), dto.getPhoneId()).setVerificationCode(verificationCode));
     }
 
     public PhoneDto verifyPhoneNumber(UUID userId, UUID phoneId, String verificationCode){

@@ -1,39 +1,101 @@
-<div class="container">
-  <div class="mt-4 mb-3">
-    <h4 class="mb-0 mr-2 align-self-center">Create a New User</h4>
+<div class="container-fluid bg-faded">
+  <div class="container py-3">
+    <button role="button" routerLink="/users" class="btn btn-link btn-sm pl-0"><i
+        class="fas fa-long-arrow-alt-left mr-2"></i>Back to All
+      Users</button>
+    <h4 class="mb-0 mt-1 mr-2 align-self-center">Create a New User</h4>
   </div>
-  <div class="card">
+</div>
+
+<div class="container py-3">
+  <div class="card card-shadow p-2">
     <div class="card-body p-4">
-      <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" [(ngModel)]="user.username" class="form-control" id="username" name="username"
-            placeholder="Enter your username" required #username="ngModel">
+          <label>Username</label>
+          <input type="text" class="form-control" formControlName="username" id="username" name="username"
+            placeholder="SmithJ123" required>
+          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="form-alert">
+            <div *ngIf="username.errors.required">
+              Username is required.
+            </div>
+            <div *ngIf="username.errors.maxlength">
+              Username may not exceed 20 characters.
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" [(ngModel)]="user.firstName" class="form-control" id="firstName" name="firstName"
-                placeholder="Enter your first name" required #firstName="ngModel">
+              <label>First Name</label>
+              <input type="text" class="form-control" formControlName="firstName" id="firstName" name="firstName"
+                placeholder="John" required>
+              <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="form-alert">
+                <div *ngIf="firstName.errors.required">
+                  First name is required.
+                </div>
+                <div *ngIf="firstName.errors.maxlength">
+                  First name may not exceed 50 characters.
+                </div>
+              </div>
             </div>
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" [(ngModel)]="user.lastName" class="form-control" id="lastName" name="lastName"
-                placeholder="Enter your last name" required #lastName="ngModel">
+              <label>Last Name</label>
+              <input type="text" class="form-control" id="lastName" formControlName="lastName" name="lastName"
+                placeholder="Smith" required>
+              <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="form-alert">
+                <div *ngIf="lastName.errors.required">
+                  Last name is required.
+                </div>
+                <div *ngIf="lastName.errors.maxlength">
+                  Last name may not exceed 50 characters.
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div [hidden]="true" class="alert alert-danger">Name is required</div>
         <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
-          <input type="tel" [(ngModel)]="user.phone" class="form-control" id="phone" name="phone"
-            placeholder="Enter your primary phone number" required #phone="ngModel">
-          <div [hidden]="true" class="alert alert-danger">Phone Number is required</div>
+          <div formArrayName="phoneList">
+            <label class="mr-auto mb-1">Phone Numbers</label>
+            <div *ngFor="let phone of phoneList.controls; let i=index;">
+              <div [formGroupName] = "i">
+                <label class="control-label align-self-center mb-0 mr-3"><span
+                    *ngIf="i <=0; then primaryLabel else secondaryLabel"></span></label>
+                <ng-template #primaryLabel>Primary</ng-template>
+                <ng-template #secondaryLabel>Secondary</ng-template>
+                <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel"
+                  mask='(000) 000-0000' formControlName="phoneNumber" required>
+                <div *ngIf="phone.invalid && phone.touched" class="form-alert">
+                  <div *ngIf="phone.errors.required">
+                    Phone number is required.
+                  </div>
+                  <div *ngIf="phone.errors.maxlength">
+                    Phone number must be 10 charcters.
+                  </div>
+                  <div *ngIf="phone.errors.minlength">
+                    Phone number must be 10 charcters.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <button type="submit" [disabled]="!userForm.form.valid" class="btn btn-primary">Submit</button>
+        <div class="mb-4">
+          <button type="button" class="btn btn-sm mr-2  fa-sm btn-light color-text" (click)="addPhone()">
+            <i class="fas fa-plus fa-sm mr-1 color-text" style="opacity:0.8;"></i> Add Phone
+          </button>
+          <span *ngIf="this.phoneList.length > 1">
+            <button type="button" class="btn btn-sm btn-light color-text" (click)="removePhone()">
+              <i class="fas fa-minus mr-2  fa-sm  color-text"></i> Remove Phone
+            </button>
+          </span>
+        </div>
+        <button type="submit" [disabled]="!newUserForm.valid" class="btn btn-block btn-primary">Submit</button>
+        <!--<p>
+          Form Status: {{ newUserForm.status }}
+        </p>-->
       </form>
     </div>
   </div>

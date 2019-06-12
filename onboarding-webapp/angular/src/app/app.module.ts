@@ -10,7 +10,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { UserComponent } from './users/user/user.component';
 import { CreateUserComponent } from './users/create-user/create-user.component'; 
 import { FormsModule }   from '@angular/forms';
-import { ModalComponent } from './modal/modal.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { MatDialogModule} from '@angular/material/dialog';
+import { DeleteUserComponent } from './users/delete-user/delete-user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
+import {NgxMaskModule, IConfig} from 'ngx-mask';
+import { DeletePhoneComponent } from './phones/delete-phone/delete-phone.component';
+import { EditPhoneComponent } from './phones/edit-phone/edit-phone.component';
+import { PhoneListComponent } from './phones/phone-list/phone-list.component';
+import { VerifyPhoneComponent } from './phones/verify-phone/verify-phone.component';
+
+export var options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -20,15 +31,29 @@ import { ModalComponent } from './modal/modal.component';
     FooterComponent,
     UserComponent,
     CreateUserComponent,
-    ModalComponent
+    EditUserComponent,
+    DeleteUserComponent,
+    DeletePhoneComponent,
+    EditPhoneComponent,
+    PhoneListComponent,
+    VerifyPhoneComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    NgxMaskModule.forRoot(options)
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    DeleteUserComponent, 
+    DeletePhoneComponent,
+    VerifyPhoneComponent 
+  ]
 })
 export class AppModule { }

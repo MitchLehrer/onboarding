@@ -43,9 +43,9 @@ public class PhoneValidator {
         allErrors.putAll(validatePhoneNumber(dto));
 
         List<PhoneDto> userPhones = phoneService.getByUserId(dto.getUserId());
-        userPhones.add(dto);
 
-        allErrors.putAll(validateOnlyOnePrimary(userPhones));
+        allErrors.putAll(validateOnlyOnePrimaryForUpdate(dto, userPhones));
+        allErrors.putAll(validateNoDuplicates(userPhones));
         return allErrors;
     }
 
@@ -85,6 +85,30 @@ public class PhoneValidator {
         if (phoneList != null) {
             for (PhoneDto phone : phoneList) {
                 if (phone.getPrimary() != null && phone.getPrimary()) {
+                    primaryPhones.add(phone);
+                }
+            }
+
+            if (primaryPhones.size() > 1) {
+                errors.put("phonePrimary", ONLY_ONE_PRIMARY);
+            }
+        }
+
+        return errors;
+    }
+
+    public Map<String, String> validateOnlyOnePrimaryForUpdate(PhoneDto dto, List<PhoneDto> phoneList) {
+        Map<String, String> errors = new LinkedHashMap<>();
+
+        List<PhoneDto> primaryPhones = new ArrayList<>();
+
+        if (dto.getPrimary()){
+            primaryPhones.add(dto);
+        }
+
+        if (phoneList != null) {
+            for (PhoneDto phone : phoneList) {
+                if (phone.getPrimary() != null && phone.getPrimary() && phone.getPhoneId() != dto.getPhoneId()) {
                     primaryPhones.add(phone);
                 }
             }
