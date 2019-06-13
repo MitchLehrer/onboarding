@@ -62,22 +62,11 @@
             <div *ngFor="let phone of phoneList.controls; let i=index;">
               <div [formGroupName] = "i">
                 <label class="control-label align-self-center mb-0 mr-3"><span
-                    *ngIf="i <=0; then primaryLabel else secondaryLabel"></span></label>
+                    *ngIf="i<=0; then primaryLabel else secondaryLabel"></span></label>
                 <ng-template #primaryLabel>Primary</ng-template>
                 <ng-template #secondaryLabel>Secondary</ng-template>
                 <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel"
                   mask='(000) 000-0000' formControlName="phoneNumber" required>
-                <div *ngIf="phone.invalid && phone.touched" class="form-alert">
-                  <div *ngIf="phone.errors.required">
-                    Phone number is required.
-                  </div>
-                  <div *ngIf="phone.errors.maxlength">
-                    Phone number must be 10 charcters.
-                  </div>
-                  <div *ngIf="phone.errors.minlength">
-                    Phone number must be 10 charcters.
-                  </div>
-                </div>
               </div>
             </div>
           </div>

@@ -29,7 +29,6 @@ export class UserListComponent implements OnInit {
   }
 
   navigateToUser(user:User) {
-    console.log(user);
     this.router.navigateByUrl('/users/'+ user.userId);
   };
 

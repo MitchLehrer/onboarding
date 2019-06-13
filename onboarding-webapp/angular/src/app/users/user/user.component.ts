@@ -20,7 +20,6 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userService.find(params['id']).subscribe(data => {
-        console.log(data);
         this.user = data;
         this.phones = this.user.phoneList;
       });

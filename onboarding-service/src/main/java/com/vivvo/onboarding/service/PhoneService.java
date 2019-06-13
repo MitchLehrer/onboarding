@@ -36,6 +36,9 @@ public class PhoneService {
     @Autowired
     private ApplicationProperties applicationProperties;
 
+    public static String INVALID_VERIFICATION_CODE= "phone.phoneNumber.INVALID_VERIFICATION_CODE";
+
+
     public PhoneDto create(PhoneDto dto) {
         Map<String, String> errors = phoneValidator.validate(dto);
         if (!errors.isEmpty()) {
@@ -133,7 +136,7 @@ public class PhoneService {
         if(phone.getVerificationCode() != null && phone.getVerificationCode().equals(verificationCode)){
             return update(phone.setVerified(true).setVerificationCode(null));
         }else{
-            throw new BadRequestException();
+            throw new ValidationException(Collections.singletonMap("phoneNumber", INVALID_VERIFICATION_CODE));
         }
     }
 

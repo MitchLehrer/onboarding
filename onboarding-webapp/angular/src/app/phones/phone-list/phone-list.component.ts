@@ -5,6 +5,8 @@ import { DeletePhoneComponent } from '../delete-phone/delete-phone.component';
 import { PhoneService } from 'src/app/services/phone.service';
 import { Router } from '@angular/router';
 import { VerifyPhoneComponent } from '../verify-phone/verify-phone.component';
+import { CreatePhoneComponent } from '../create-phone/create-phone.component';
+import { EditPhoneComponent } from '../edit-phone/edit-phone.component';
 
 @Component({
   selector: 'app-phone-list',
@@ -44,11 +46,11 @@ export class PhoneListComponent implements OnInit {
   }
 
   sendVerification(phone:Phone){
-    console.log(phone);
     this.phoneService.sendVerificationCode(phone.userId, phone.phoneId).subscribe(response => {
-      console.log(response);
       this.refreshPhoneList();
-      console.log(phone.verificationCode);
+    },
+    err => {
+      alert(JSON.stringify(err.error))
     });
   }
 
@@ -60,6 +62,30 @@ export class PhoneListComponent implements OnInit {
       return '(' + match[1] + ') ' + match[2] + '-' + match[3]
     }
     return null
+  }
+
+  createPhone(){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data ={userId : this.userId}
+
+    let dialogRef = this.dialog.open(CreatePhoneComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => data.phoneCreated ? this.refreshPhoneList() : null 
+    );    
+  }
+
+  editPhone(phone:Phone){
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data ={phone : phone}
+
+    let dialogRef = this.dialog.open(EditPhoneComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => data.phoneEdited ? this.refreshPhoneList() : null 
+    );    
   }
 
    submitVerification(phone:Phone){

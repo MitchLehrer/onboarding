@@ -20,7 +20,7 @@ export class CreateUserComponent implements OnInit {
     firstName: ['', [Validators.required, Validators.maxLength(50)]],
     lastName: ['', [Validators.required, Validators.maxLength(50)]],
     phoneList: this.fb.array([this.fb.group({
-      phoneNumber: [''],
+      phoneNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
       primary:['true']
   })])
   });
@@ -32,7 +32,6 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.newUser = this.newUserForm.getRawValue() as User;
-    console.log(this.newUser);
     this.userService.save(this.newUser).subscribe(response => {
       if (response.status == 201) {
         this.userCreated();
@@ -40,6 +39,9 @@ export class CreateUserComponent implements OnInit {
       else {
         alert("Error creating user");
       }
+    },
+    err => {
+      alert(JSON.stringify(err.error));
     });
   }
 
@@ -70,7 +72,7 @@ export class CreateUserComponent implements OnInit {
   addPhone() {
     this.phoneList.push(
       this.fb.group({
-        phoneNumber: [''],
+        phoneNumber: ['',[Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
         primary:['false']
     }))
   }

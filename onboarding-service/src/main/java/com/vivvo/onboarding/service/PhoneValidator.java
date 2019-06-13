@@ -101,14 +101,17 @@ public class PhoneValidator {
         Map<String, String> errors = new LinkedHashMap<>();
 
         List<PhoneDto> primaryPhones = new ArrayList<>();
-
+        System.out.println(primaryPhones);
+        System.out.println(dto);
         if (dto.getPrimary()){
             primaryPhones.add(dto);
         }
 
         if (phoneList != null) {
             for (PhoneDto phone : phoneList) {
-                if (phone.getPrimary() != null && phone.getPrimary() && phone.getPhoneId() != dto.getPhoneId()) {
+                if (phone.getPrimary() != null && phone.getPrimary() && !phone.getPhoneId().equals(dto.getPhoneId())) {
+                    System.out.println(phone.getPhoneId());
+                    System.out.println(dto.getPhoneId());
                     primaryPhones.add(phone);
                 }
             }
@@ -117,7 +120,7 @@ public class PhoneValidator {
                 errors.put("phonePrimary", ONLY_ONE_PRIMARY);
             }
         }
-
+        System.out.println(primaryPhones);
         return errors;
     }
 

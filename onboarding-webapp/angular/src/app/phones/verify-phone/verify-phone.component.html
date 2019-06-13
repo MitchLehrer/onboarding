@@ -1,11 +1,11 @@
 <h4 class="text-center">Verify Phone Number</h4>
-<p class="text-center">Enter the 4-digit code that was texted to you:</p>
-<form class="form-inline" [formGroup]="verificationForm" (ngSubmit)="submitVerificationCode()">
+<p class="text-center mb-3" style="font-size:0.9em;">Enter the 4-digit code that was sent to you:</p>
+<form class="form-inline mb-3" [formGroup]="verificationForm" (ngSubmit)="submitVerificationCode()">
   <div class="input-group">
-    <input name="verificationCode" formControlName="verificationCode" class="form-control text-center mx-auto" type="num" maxlength="4" mask='0000'>
+    <input name="verificationCode" formControlName="verificationCode" class="form-control text-center mr-2" style=" border-radius: 4px;"  type="num" maxlength="4" mask='0000'>
     <span class="input-group-btn">
-      <button class="btn btn-primary" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Submit
-        Code</button>
+      <button class="btn btn-primary">Submit Code</button>
     </span>
   </div>
 </form>
+<div class="text-center"><button style="font-size:12px;" (click)="resendVerificationCode()" class="btn btn-link text-center color-primary p-0"><i class="fas fa-redo fa-sm mr-1"></i>Resend Verification Code</button></div>

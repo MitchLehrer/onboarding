@@ -27,9 +27,15 @@ export class PhoneService {
     return this.http.post<Phone>(this.usersUrl + "/" + userId + "/phones", phone, {observe:'response'});
   }
 
+  public update(userId: string, phone: Phone) {
+    return this.http.put<Phone>(this.usersUrl + "/" + userId + "/phones/" + phone.phoneId, phone, {observe:'response'});
+  }
+
   public delete(userId:string, phoneId:string) {
-    console.log(this.usersUrl + "/" + userId + "/phones/" + phoneId)
     return this.http.delete(this.usersUrl + "/" + userId + "/phones/" + phoneId);
+  }
+  public setPrimary(userId:string, phoneId:string){
+    return this.http.post<Phone>(this.usersUrl + "/" + userId + "/phones/" + phoneId + "/setPrimary", null, {observe:'response'});
   }
 
   public sendVerificationCode(userId:string, phoneId:string){

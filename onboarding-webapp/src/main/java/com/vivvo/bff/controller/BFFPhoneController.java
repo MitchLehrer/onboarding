@@ -58,7 +58,7 @@ public class BFFPhoneController {
         return userClient.verifyPhone(userId, phoneId, verificationCode);
     }
 
-    @PostMapping("/{phoneId}/set-primary")
+    @PostMapping("/{phoneId}/setPrimary")
     public PhoneDto SetPrimary(@PathVariable UUID userId, @PathVariable UUID phoneId){
         return userClient.makePhonePrimary(userId, phoneId);
     }

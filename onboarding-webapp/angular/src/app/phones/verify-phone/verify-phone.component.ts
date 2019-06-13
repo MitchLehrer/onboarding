@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { PhoneService } from 'src/app/services/phone.service';
 import { Phone } from 'src/app/models/phone';
-import { FormsModule, NgForm, FormBuilder }   from '@angular/forms';
+import { FormsModule, NgForm, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-verify-phone',
@@ -18,7 +18,7 @@ export class VerifyPhoneComponent implements OnInit {
   });
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService,private fb : FormBuilder) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService, private fb: FormBuilder) { }
 
   phoneToVerify: Phone;
 
@@ -30,20 +30,29 @@ export class VerifyPhoneComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  submitVerificationCode(formData : NgForm) {
+  submitVerificationCode() {
     this.verificationCode = this.verificationForm.get('verificationCode').value;
     this.phoneService.submitVerificationCode(this.phoneToVerify.userId, this.phoneToVerify.phoneId, this.verificationCode).subscribe(data => {
-      if(data.status == 200){
+      if (data.status == 200) {
         this.phoneVerified();
-      }else{
-        console.log("Error")
       }
-    });
+    },
+      err => {
+        alert(JSON.stringify(err.error))
+      });
   }
 
-  phoneVerified(){
+  phoneVerified() {
     alert("Phone was successfully verified!");
-    this.dialogRef.close({ phoneVerified: true});
+    this.dialogRef.close({ phoneVerified: true });
+  }
+
+  resendVerificationCode() {
+    this.phoneService.sendVerificationCode(this.phoneToVerify.userId, this.phoneToVerify.phoneId).subscribe(response => {
+    },
+      err => {
+        alert(JSON.stringify(err.error))
+      });
   }
 
 

@@ -20,6 +20,7 @@ import { DeletePhoneComponent } from './phones/delete-phone/delete-phone.compone
 import { EditPhoneComponent } from './phones/edit-phone/edit-phone.component';
 import { PhoneListComponent } from './phones/phone-list/phone-list.component';
 import { VerifyPhoneComponent } from './phones/verify-phone/verify-phone.component';
+import { CreatePhoneComponent } from './phones/create-phone/create-phone.component';
 
 export var options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -36,7 +37,8 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
     DeletePhoneComponent,
     EditPhoneComponent,
     PhoneListComponent,
-    VerifyPhoneComponent
+    VerifyPhoneComponent,
+    CreatePhoneComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,9 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
   entryComponents: [
     DeleteUserComponent, 
     DeletePhoneComponent,
-    VerifyPhoneComponent 
+    VerifyPhoneComponent,
+    CreatePhoneComponent,
+    EditPhoneComponent
   ]
 })
 export class AppModule { }

@@ -1,12 +1,12 @@
 <table class="table table-sm mb-0 phone-list">
   <thead>
-    <tr>
+    <tr class="py-1">
       <th colspan='2' scope="col" class="table-header align-middle">Phones</th>
       <th colspan='2' class="text-right">
-        <button type="button" class="btn btn-link btn-sm mr-2  fa-sm" (click)="refreshPhoneList()">
+        <button type="button" class="btn btn-link btn-sm mr-2  fa-sm" (click)="refreshPhoneList()"  style=" font-size: 13px;">
           <i class="fas fa-redo fa-sm mr-1" style="opacity:0.8;"></i> Refresh
         </button>
-        <button type="button" class="btn btn-sm fa-sm btn-outline-primary" (click)="addPhone()">
+        <button type="button" class="btn btn-sm fa-sm btn-outline-primary" (click)="createPhone()" style=" font-size: 13px;">
           <i class="fas fa-plus fa-sm mr-1" style="opacity:0.8;"></i> Add Phone
         </button>
       </th>
@@ -31,7 +31,7 @@
         <button *ngIf="phone?.verificationCode" (click)="submitVerification(phone)" class="btn-sm btn btn-link px-0" style="font-size:12px;">Submit Verification</button>
         </ng-template>
       <td class="align-middle">
-        <div class="btn-group btn-group-sm" role="group"><button type="button" class="btn btn-link p-2 color-text"><i
+        <div class="btn-group btn-group-sm" role="group"><button type="button" (click)="editPhone(phone);" class="btn btn-link p-2 color-text"><i
               class="far fa-edit"></i></button><button (click)="confirmDelete(phone);" type="button"
             class="btn btn-link p-2 color-text"><i class="fas fa-trash-alt"></i></button>
         </div>
