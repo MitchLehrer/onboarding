@@ -32,7 +32,7 @@ export class UserComponent implements OnInit {
 
     dialogConfig.data ={user : this.user}
 
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
 
     let dialogRef = this.dialog.open(DeleteUserComponent, dialogConfig);

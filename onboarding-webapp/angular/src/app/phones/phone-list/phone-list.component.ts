@@ -40,7 +40,7 @@ export class PhoneListComponent implements OnInit {
 
     dialogConfig.data ={phone : phone, phoneToDisplay : this.formatPhoneNumber(phone.phoneNumber)}
 
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
 
     let dialogRef = this.dialog.open(DeletePhoneComponent, dialogConfig);
