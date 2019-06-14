@@ -6,15 +6,60 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class UsernameFilterPipe implements PipeTransform {
 
   transform(items: any[], searchText: string): any[] {
+    var results = [];
     if (!items) return [];
     if (!searchText) return items;
+
     searchText = searchText.toLowerCase();
-    var results = items.filter(it => {
+    var usernameResults = items.filter(it => {
       return it.username.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
     });
-    if(results.length === 0){
+
+    var firstNameResults = items.filter(it => {
+      return it.firstName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+    });
+
+    var lastNameResults = items.filter(it => {
+      return it.lastName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+    });
+
+    var userIdResults = items.filter(it => {
+      return it.userId.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+    });
+
+    if (usernameResults.length) {
+      for (let user of usernameResults) {
+        results.push(user);
+      };
+    }
+    if (firstNameResults.length) {
+      for (let user of firstNameResults) {
+        results.push(user);
+      }
+    }
+    if (lastNameResults.length) {
+      for (let user of lastNameResults) {
+        results.push(user);
+      }
+    }
+    if (userIdResults.length) {
+      for (let user of userIdResults) {
+        results.push(user);
+      }
+    }
+
+    if (results.length === 0) {
       return [-1];
     }
-    return results;
+    console.log(results);
+    return this.removeDuplicates(results);
+  }
+
+  removeDuplicates(results){
+    return results.filter((elem, i, arr) => {
+      if (arr.indexOf(elem) === i) {
+        return elem
+      }
+    })
   }
 }
