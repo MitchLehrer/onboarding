@@ -138,3 +138,9 @@ form .form-alert:empty{
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
+.mat-dialog-close:before{
+    content:'';
+    position:absolute;
+
+}

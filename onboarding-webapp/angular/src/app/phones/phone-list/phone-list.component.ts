@@ -53,6 +53,7 @@ export class PhoneListComponent implements OnInit {
   sendVerification(phone:Phone){
     this.phoneService.sendVerificationCode(phone.userId, phone.phoneId).subscribe(response => {
       this.refreshPhoneList();
+      this.submitVerification(phone);
     },
     err => {
       alert(JSON.stringify(err.error))

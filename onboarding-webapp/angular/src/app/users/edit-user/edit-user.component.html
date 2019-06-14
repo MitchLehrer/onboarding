@@ -1,5 +1,5 @@
 <div class="py-2 px-1">
-    <h5 class="color-text">Edit User {{oldUser?.username}}</h5>
+    <h5 class="color-text d-flex"><div class ="mr-auto">Edit User {{oldUser?.username}}</div><button (click)="close()" class ="btn btn-link p-0 ml-auto"><i class="fa fas fa-times color-text-light"></i></button></h5>
     <hr>
     <form [formGroup]="editUserForm" (ngSubmit)="editUser()">
         <div class="form-group">
