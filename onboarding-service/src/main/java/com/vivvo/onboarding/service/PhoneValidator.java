@@ -45,7 +45,7 @@ public class PhoneValidator {
         List<PhoneDto> userPhones = phoneService.getByUserId(dto.getUserId());
 
         allErrors.putAll(validateOnlyOnePrimaryForUpdate(dto, userPhones));
-        allErrors.putAll(validateNoDuplicates(userPhones));
+        allErrors.putAll(validateNoDuplicatesForUpdate(dto, userPhones));
         return allErrors;
     }
 
@@ -101,8 +101,6 @@ public class PhoneValidator {
         Map<String, String> errors = new LinkedHashMap<>();
 
         List<PhoneDto> primaryPhones = new ArrayList<>();
-        System.out.println(primaryPhones);
-        System.out.println(dto);
         if (dto.getPrimary()){
             primaryPhones.add(dto);
         }
@@ -110,8 +108,6 @@ public class PhoneValidator {
         if (phoneList != null) {
             for (PhoneDto phone : phoneList) {
                 if (phone.getPrimary() != null && phone.getPrimary() && !phone.getPhoneId().equals(dto.getPhoneId())) {
-                    System.out.println(phone.getPhoneId());
-                    System.out.println(dto.getPhoneId());
                     primaryPhones.add(phone);
                 }
             }
@@ -120,7 +116,6 @@ public class PhoneValidator {
                 errors.put("phonePrimary", ONLY_ONE_PRIMARY);
             }
         }
-        System.out.println(primaryPhones);
         return errors;
     }
 
@@ -133,6 +128,21 @@ public class PhoneValidator {
                 errors.put("phoneNumber", DUPLICATE_PHONE_NUMBER);
             }
         else{
+                seenValues.add(phone.getPhoneNumber().replaceAll("[^\\d]", "" ));
+            }
+        }
+        return errors;
+    }
+
+    public Map<String, String> validateNoDuplicatesForUpdate(PhoneDto dto, List<PhoneDto> userPhones) {
+        Map<String, String> errors = new LinkedHashMap<>();
+
+        Set<String> seenValues = new HashSet();
+        for (PhoneDto phone : userPhones) {
+            if (seenValues.contains(phone.getPhoneNumber().replaceAll("[^\\d]", "" ))) {
+                errors.put("phoneNumber", DUPLICATE_PHONE_NUMBER);
+            }
+            else{
                 seenValues.add(phone.getPhoneNumber().replaceAll("[^\\d]", "" ));
             }
         }

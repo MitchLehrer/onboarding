@@ -4,6 +4,7 @@ import { User } from '../../models/user';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 
 @Component({
   selector: 'app-user-list',
@@ -22,20 +23,20 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  refreshUserList(){
+  refreshUserList() {
     this.userService.findAll().subscribe(data => {
       this.users = data;
     });
   }
 
-  navigateToUser(user:User) {
-    this.router.navigateByUrl('/users/'+ user.userId);
+  navigateToUser(user: User) {
+    this.router.navigateByUrl('/users/' + user.userId);
   };
 
-  confirmDelete(user:User){
+  confirmDelete(user: User) {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.data ={user : user}
+    dialogConfig.data = { user: user }
 
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
@@ -44,7 +45,24 @@ export class UserListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => this.refreshUserList()
-    );    
+    );
   }
 
+  editUser(user: User) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.data = { user: user }
+
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = false;
+
+    let dialogRef = this.dialog.open(EditUserComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data && data.userEdited) {
+          this.refreshUserList()
+        }
+      });
+  }
 }

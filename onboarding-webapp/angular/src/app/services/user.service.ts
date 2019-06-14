@@ -28,8 +28,12 @@ export class UserService {
     return this.http.post<User>(this.usersUrl, user, {observe:'response'});
   }
 
+  public update(user: User) {
+    return this.http.put<User>(this.usersUrl +  "/" + user.userId, user, {observe:'response'});
+  }
+
   public delete(userId:string) {
-    return this.http.delete(this.usersUrl + "/" + userId);
+    return this.http.delete(this.usersUrl + "/" + userId, {observe:'response'});
   }
 
 }

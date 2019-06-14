@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class="container py-3">
-  <div class="mb-3 shadow-sm user-search color-text-light"><i class="fas fa-search fa"></i><input
+  <div class="mb-3 shadow-sm user-search color-text-light" style="border-radius:4px;"><i class="fas fa-search fa"></i><input
       class="form-control border-0" disabled type="text" placeholder="Search" aria-label="Search">
   </div>
   <div class="card card-shadow">
@@ -29,7 +29,7 @@
           <td class="align-middle">{{ user.firstName }}</td>
           <td class="align-middle">{{ user.lastName }}</td>
           <td class="align-middle">
-            <div class="btn-group btn-group-sm" role="group"><button type="button"
+            <div class="btn-group btn-group-sm" role="group"><button (click)="editUser(user); $event.stopPropagation()" type="button"
                 class="btn btn-link p-2 color-text"><i class="far fa-edit"></i></button><button
                 (click)="confirmDelete(user); $event.stopPropagation()" type="button"
                 class="btn btn-link p-2 color-text"><i class="fas fa-trash-alt"></i></button>

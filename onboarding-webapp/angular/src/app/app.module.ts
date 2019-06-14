@@ -57,7 +57,8 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
     DeletePhoneComponent,
     VerifyPhoneComponent,
     CreatePhoneComponent,
-    EditPhoneComponent
+    EditPhoneComponent,
+    EditUserComponent
   ]
 })
 export class AppModule { }

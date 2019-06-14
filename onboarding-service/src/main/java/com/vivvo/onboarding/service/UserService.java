@@ -72,7 +72,9 @@ public class UserService {
         List<PhoneDto> phones = dto.getPhoneList();
 
         if (phones != null && !phones.isEmpty()) {
-            errors.putAll(phoneValidator.validate(phones));
+            for(PhoneDto phone : phones) {
+                errors.putAll(phoneValidator.validateForUpdate(phone));
+            }
         }
         if (!errors.isEmpty()) {
             throw new ValidationException(errors);
@@ -126,14 +128,13 @@ public class UserService {
     public void delete(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
+            List<PhoneDto> userPhones = userService.get(userId).getPhoneList();
+            for (PhoneDto phone : userPhones) {
+                phoneService.delete(phone.getPhoneId());
+            }
             userRepository.delete(user.get());
         } else {
             throw new NotFoundException(userId);
-        }
-
-        List<PhoneDto> userPhones = userService.get(userId).getPhoneList();
-        for (PhoneDto phone : userPhones) {
-            phoneService.delete(phone.getPhoneId());
         }
     }
 

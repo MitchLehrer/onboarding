@@ -72,7 +72,7 @@ export class PhoneListComponent implements OnInit {
     let dialogRef = this.dialog.open(CreatePhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => data.phoneCreated ? this.refreshPhoneList() : null 
+      data => (data && data.phoneCreated) ? this.refreshPhoneList() : null 
     );    
   }
 
@@ -84,7 +84,7 @@ export class PhoneListComponent implements OnInit {
     let dialogRef = this.dialog.open(EditPhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => data.phoneEdited ? this.refreshPhoneList() : null 
+      data => (data && data.phoneEdited) ? this.refreshPhoneList() : null 
     );    
   }
 
@@ -96,7 +96,7 @@ export class PhoneListComponent implements OnInit {
     let dialogRef = this.dialog.open(VerifyPhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => data.phoneVerified ? this.refreshPhoneList() : null 
+      data => (data && data.phoneVerified) ? this.refreshPhoneList() : null 
     );    
   }
   

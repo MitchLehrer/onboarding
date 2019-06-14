@@ -24,8 +24,14 @@ export class DeleteUserComponent implements OnInit {
 
   deleteUser(){
     this.userService.delete(this.userToDelete.userId).subscribe(data => {
+        if(data.status == 204){
+          this.dialogRef.close({ userDeleted: true});
+        }
+    },
+    err =>{
+      alert(JSON.stringify(err.error));
+      this.dialogRef.close();
     });
-    this.dialogRef.close({ userDeleted: true});
   }
 
 }
