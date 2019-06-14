@@ -11,20 +11,21 @@ export class UsernameFilterPipe implements PipeTransform {
     if (!searchText) return items;
 
     searchText = searchText.toLowerCase();
+
     var usernameResults = items.filter(it => {
-      return it.username.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return it.username.toLowerCase().indexOf(searchText.toLowerCase().trim()) > -1;
     });
 
     var firstNameResults = items.filter(it => {
-      return it.firstName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return it.firstName.toLowerCase().indexOf(searchText.toLowerCase().trim()) > -1;
     });
 
     var lastNameResults = items.filter(it => {
-      return it.lastName.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return it.lastName.toLowerCase().indexOf(searchText.toLowerCase().trim()) > -1;
     });
 
     var userIdResults = items.filter(it => {
-      return it.userId.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+      return it.userId.toLowerCase().indexOf(searchText.toLowerCase().trim()) > -1;
     });
 
     if (usernameResults.length) {
@@ -51,11 +52,10 @@ export class UsernameFilterPipe implements PipeTransform {
     if (results.length === 0) {
       return [-1];
     }
-    console.log(results);
     return this.removeDuplicates(results);
   }
 
-  removeDuplicates(results){
+  removeDuplicates(results) {
     return results.filter((elem, i, arr) => {
       if (arr.indexOf(elem) === i) {
         return elem
