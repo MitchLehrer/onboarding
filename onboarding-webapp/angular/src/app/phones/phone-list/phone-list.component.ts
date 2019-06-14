@@ -21,11 +21,16 @@ export class PhoneListComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  ngOnChanges(){
+    this.sortPhones();
+  }
   
 
   refreshPhoneList(){
     this.phoneService.findAll(this.userId).subscribe(data => {
       this.phones = data;
+      this.sortPhones();
     });
   }
 
@@ -98,6 +103,10 @@ export class PhoneListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       data => (data && data.phoneVerified) ? this.refreshPhoneList() : null 
     );    
+  }
+
+  sortPhones(){
+    this.phones.sort((a,b) => +b.primary - +a.primary);
   }
   
 }

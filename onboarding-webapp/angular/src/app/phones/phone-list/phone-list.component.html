@@ -21,7 +21,7 @@
     </tr>
   </thead>
   <tbody *ngIf="phones?.length">
-    <tr *ngFor="let phone of phones">
+    <tr *ngFor="let phone of phones ">
       <td class="align-middle">{{ formatPhoneNumber(phone.phoneNumber)}}</td>
       <td class="align-middle"><span *ngIf="phone.primary; else secondaryPhone">Primary</span></td>
       <ng-template #secondaryPhone>Secondary</ng-template>
