@@ -1,0 +1,25 @@
+<div class="py-2 px-1">
+  <h5 class="color-text d-flex"><div class ="mr-auto">Add Phone</div><button (click)="close()" class ="btn btn-link p-0 ml-auto"><i class="fa fas fa-times color-text-light"></i></button></h5>
+  <hr>
+  <form class="form" [formGroup]="newPhoneForm" (ngSubmit)="createPhone()">
+    <div class="form-group">
+      <label for="inputEmail4">New Phone Number</label>
+      <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel" mask='(000) 000-0000'
+        formControlName="phoneNumber" required>
+    </div>
+    <div class="form-group">
+      <div class="form-check mb-2 ">
+        <div class="d-flex align-middle">
+          <input class="form-check-input" formControlName="makePrimary" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label">
+            Make Primary
+          </label>
+        </div>
+        <small id="passwordHelpBlock" class="form-text text-muted">
+          Making this phone primary will overwrite your current primary phone.
+        </small>
+      </div>
+    </div>
+    <button class="btn btn-primary" [disabled]="!newPhoneForm.valid">Submit</button>
+  </form>
+</div>

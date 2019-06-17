@@ -1,1 +1,150 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+$color-primary: #007bff;
+$color-primary-dark:#0056b3;
+
+$color-primary-red:#dc3545;
+$color-primary-green:#28a745;
+
+$color-text-dark: #020814;
+$color-text:#73849A;
+$color-text-light:#b2becd;
+
+.form-control::-webkit-input-placeholder { color:$color-text-light }  /* WebKit, Blink, Edge */
+.form-control:-moz-placeholder { color:$color-text-light }  /* Mozilla Firefox 4 to 18 */
+.form-control::-moz-placeholder { color:$color-text-light }  /* Mozilla Firefox 19+ */
+.form-control:-ms-input-placeholder { color:$color-text-light }  /* Internet Explorer 10-11 */
+.form-control::-ms-input-placeholder { color:$color-text-light }  /* Microsoft Edge */
+
+.color-primary{
+    color:$color-primary;
+}
+.color-primary-dark{
+    color:$color-primary;
+}
+.color-primary-dark{
+    color:$color-primary-dark;
+}
+.color-primary-green{
+    color:$color-primary-green;
+}
+.color-text-dark{
+    color: $color-text-dark;
+}
+.color-text{
+    color:$color-text;
+}
+
+.color-text-light{
+    color:$color-text-light;
+}
+
+html,
+body{
+    background-color:#f1f4f6;
+    color:$color-text;
+}
+
+.card{
+    border:none;
+}
+
+.bg-faded{
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
+.table td,
+.table th{
+    border-color:#e9ecef;
+}
+
+td{
+    color:$color-text;
+}
+
+.card-shadow{
+    box-shadow: 0 0.46875rem 2.1875rem rgba(4, 9, 20, 0.03), 0 0.9375rem 1.40625rem rgba(4, 9, 20, 0.03), 0 0.25rem 0.53125rem rgba(4, 9, 20, 0.05), 0 0.125rem 0.1875rem rgba(4, 9, 20, 0.03);
+}
+
+a, a:hover, a:active, a:visited, a:focus,
+.btn-link, .btn-link:hover, .btn-link:active, .btn-link:visited, .btn-link:focus {
+    text-decoration:none;
+}
+form label{
+    color:$color-text-dark;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+form label.control-label{
+    color:$color-text;
+    font-size:13px;
+    font-weight:normal;
+}
+
+form .form-alert{
+    font-size:0.8rem;
+    padding-top:4px;
+    color: $color-primary-red;
+}
+
+form .form-alert:empty{
+    padding:0;
+}
+
+.btn.color-text:hover{
+    color:$color-text;
+}
+
+
+.table{
+    border-radius:4px;
+    overflow: hidden;
+
+    .user-id{
+        font-size:0.75em;
+    }
+
+    tr{
+        transition:0.2s all ease-in;
+    }
+    
+
+    th,td{
+        padding: 0.55rem;
+        font-size: 14px;
+    }
+
+    th{
+        border-top:0;
+        border-bottom-color: rgba(26, 54, 126, 0.11);
+    }
+
+    .table-header{
+        color: $color-text;
+        font-weight: 500;
+        font-size:16px;
+    }
+}
+
+.table.table-hover tbody tr:hover{
+    background-color:#f6f9fc;
+    cursor:pointer;
+}
+
+.form-control:focus{
+    border-color: #ced4da;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.mat-dialog-close:before{
+    content:'';
+    position:absolute;
+
+}
+
+.form-control:disabled{
+    background-color:#f1f4f6;
+}

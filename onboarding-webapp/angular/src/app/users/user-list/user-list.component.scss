@@ -1,0 +1,56 @@
+.user-search{
+    position: relative;
+
+    .fa-search{
+        position: absolute;
+        top:50%;
+        left: 10px;
+        transform:translateY(-50%);
+        font-size:13px;
+    }
+
+    input{
+        padding-left:30px;
+        font-size:14px;
+    }
+}
+
+.user-list{
+
+    tr td:last-child{
+        width:1%;
+        white-space:nowrap;
+
+        .btn-group .btn{
+            width:48%;
+            text-align:center;
+            padding: 5px 3px;
+            line-height:1;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    tr i{
+        transition:0.1s color ease-in;
+        opacity:0.8;
+    }
+
+    tr i.fa-edit:hover{
+        color:#007bff;
+        opacity:1;
+    }
+
+    tr i.fa-trash-alt:hover{
+        color:#dc3545;
+        opacity:1;
+    }
+
+    .no-results-text{
+        max-width:80px;
+        display:inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}

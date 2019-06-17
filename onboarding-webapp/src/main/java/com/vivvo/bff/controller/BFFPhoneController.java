@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users/{userId}/phones")
+@RequestMapping("/users/{userId}/phones")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BFFPhoneController {
 
     @Autowired
@@ -57,7 +58,7 @@ public class BFFPhoneController {
         return userClient.verifyPhone(userId, phoneId, verificationCode);
     }
 
-    @PostMapping("/{phoneId}/set-primary")
+    @PostMapping("/{phoneId}/setPrimary")
     public PhoneDto SetPrimary(@PathVariable UUID userId, @PathVariable UUID phoneId){
         return userClient.makePhonePrimary(userId, phoneId);
     }

@@ -1,0 +1,46 @@
+<table class="table table-sm mb-0 phone-list">
+  <thead>
+    <tr class="py-1">
+      <th colspan='2' scope="col" class="table-header align-middle">Phones</th>
+      <th colspan='2' class="text-right">
+        <button type="button" class="btn btn-link btn-sm mr-2  fa-sm" (click)="refreshPhoneList()"  style=" font-size: 13px;">
+          <i class="fas fa-redo fa-sm mr-1" style="opacity:0.8;"></i> Refresh
+        </button>
+        <button type="button" class="btn btn-sm fa-sm btn-outline-primary" (click)="createPhone()" style=" font-size: 13px;">
+          <i class="fas fa-plus fa-sm mr-1" style="opacity:0.8;"></i> Add Phone
+        </button>
+      </th>
+    </tr>
+  </thead>
+  <thead>
+    <tr>
+      <th scope="col">Phone Number</th>
+      <th>Type</th>
+      <th scope="col">Verified</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="phones?.length">
+    <tr *ngFor="let phone of phones ">
+      <td class="align-middle">{{ formatPhoneNumber(phone.phoneNumber)}}</td>
+      <td class="align-middle"><span *ngIf="phone.primary; else secondaryPhone">Primary</span></td>
+      <ng-template #secondaryPhone>Secondary</ng-template>
+      <td class="align-middle"><div *ngIf="phone.verified; else notVerified" class="color-primary-green"><i class="fas fa-check fa-sm mr-2"></i><span style="font-size:12px;">Verified</span></div></td>
+      <ng-template #notVerified><i class="fas fa-times fa-sm mr-2"></i>
+        <button *ngIf="!phone?.verificationCode" (click)="sendVerification(phone)" class="btn-sm btn btn-link px-0" style="font-size:12px;">Send Verification</button>
+        <button *ngIf="phone?.verificationCode" (click)="submitVerification(phone)" class="btn-sm btn btn-link px-0" style="font-size:12px;">Submit Verification</button>
+        </ng-template>
+      <td class="align-middle">
+        <div class="btn-group btn-group-sm" role="group"><button type="button" (click)="editPhone(phone);" class="btn btn-link p-2 color-text"><i
+              class="far fa-edit"></i></button><button (click)="confirmDelete(phone);" type="button"
+            class="btn btn-link p-2 color-text"><i class="fas fa-trash-alt"></i></button>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!phones?.length" class="text-center p-5">
+  <h4>No Phones Found</h4>
+  <p style="font-size:13px;">This user does not have any phones.</p>
+</div>

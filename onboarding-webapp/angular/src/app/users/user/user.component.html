@@ -1,0 +1,25 @@
+<div class="container-fluid bg-faded">
+  <div class="container py-3">
+    <button role="button" routerLink="/users" class="btn btn-link btn-sm pl-0"><i
+        class="fas fa-long-arrow-alt-left mr-2"></i>Back to All
+      Users</button>
+    <div class="d-flex py-3">
+      <i class="far fa-user fa-4x align-self-center" style="opacity:0.8;"></i>
+      <div class="px-4 mr-auto">
+        <h4 class=" align-self-center color-text-dark">{{user?.firstName}} {{user?.lastName}}</h4>
+        <h6>{{user?.username}}</h6>
+        <h6 class="color-text-light" style="font-size:12px;">{{user?.userId}}</h6>
+      </div>
+      <div class="align-self-center">
+        <button class="btn btn-primary shadow-sm ml-3 my-2" (click)="editUser()" type="button"><i class="far fa-edit fa-xs mr-2"></i>Edit</button>
+        <button class="btn btn-danger shadow-sm ml-3 my-2" (click)="confirmDelete()" type="button"><i
+            class="fas fa-trash fa-xs mr-2"></i>Delete </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-3">
+  <div class="card card-shadow">
+    <app-phone-list [phones]='phones' [userId]='user?.userId'></app-phone-list>
+  </div>
+</div>

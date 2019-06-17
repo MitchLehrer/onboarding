@@ -1,0 +1,54 @@
+<div class="py-2 px-1">
+    <h5 class="color-text d-flex"><div class ="mr-auto">Edit User {{oldUser?.username}}</div><button (click)="close()" class ="btn btn-link p-0 ml-auto"><i class="fa fas fa-times color-text-light"></i></button></h5>
+    <hr>
+    <form [formGroup]="editUserForm" (ngSubmit)="editUser()">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" formControlName="username" id="username" name="username" required>
+            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="form-alert">
+                <div *ngIf="username.errors.required">
+                    Username is required.
+                </div>
+                <div *ngIf="username.errors.maxlength">
+                    Username may not exceed 20 characters.
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" formControlName="firstName" id="firstName" name="firstName"
+                        placeholder="John" required>
+                    <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="form-alert">
+                        <div *ngIf="firstName.errors.required">
+                            First name is required.
+                        </div>
+                        <div *ngIf="firstName.errors.maxlength">
+                            First name may not exceed 50 characters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName" name="lastName"
+                        placeholder="Smith" required>
+                    <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="form-alert">
+                        <div *ngIf="lastName.errors.required">
+                            Last name is required.
+                        </div>
+                        <div *ngIf="lastName.errors.maxlength">
+                            Last name may not exceed 50 characters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" [disabled]="!editUserForm.valid" class="btn btn-block btn-primary">Submit</button>
+        <!--<p>
+          Form Status: {{ newUserForm.status }}
+        </p>-->
+    </form>
+</div>
