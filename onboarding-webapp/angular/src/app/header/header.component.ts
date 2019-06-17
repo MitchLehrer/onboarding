@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  //FIXME remove unused constructor and OnInit. we remove all unused code as all code must serve a purpose
   constructor() { }
 
   ngOnInit() {
