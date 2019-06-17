@@ -25,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users | usernameFilter : searchText" (click)="navigateToUser(user)">
+        <tr *ngFor="let user of users | searchFilter : searchText" (click)="navigateToUser(user)">
           <ng-container *ngIf="user != -1">
             <td class="align-middle">{{ user.username}}</td>
             <td class="align-middle">{{ user.firstName }}</td>

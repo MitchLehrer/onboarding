@@ -15,13 +15,13 @@ import { MatDialogModule} from '@angular/material/dialog';
 import { DeleteUserComponent } from './users/delete-user/delete-user.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
-import {NgxMaskModule, IConfig} from 'ngx-mask';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { DeletePhoneComponent } from './phones/delete-phone/delete-phone.component';
 import { EditPhoneComponent } from './phones/edit-phone/edit-phone.component';
 import { PhoneListComponent } from './phones/phone-list/phone-list.component';
 import { VerifyPhoneComponent } from './phones/verify-phone/verify-phone.component';
 import { CreatePhoneComponent } from './phones/create-phone/create-phone.component';
-import { UsernameFilterPipe } from './filter/username-filter.pipe';
+import { SearchFilterPipe } from './filter/search-filter.pipe';
 
 export var options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -40,7 +40,7 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
     PhoneListComponent,
     VerifyPhoneComponent,
     CreatePhoneComponent,
-    UsernameFilterPipe
+    SearchFilterPipe
   ],
   imports: [
     BrowserModule,

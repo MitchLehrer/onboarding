@@ -15,19 +15,19 @@ import { EditPhoneComponent } from '../edit-phone/edit-phone.component';
 })
 export class PhoneListComponent implements OnInit {
 
-  @Input() phones:Phone[];
-  @Input() userId:string;
-  constructor(private dialog: MatDialog, private phoneService:PhoneService, private router: Router) { }
+  @Input() phones: Phone[];
+  @Input() userId: string;
+  constructor(private dialog: MatDialog, private phoneService: PhoneService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.sortPhones();
   }
-  
 
-  refreshPhoneList(){
+
+  refreshPhoneList() {
     this.phoneService.findAll(this.userId).subscribe(data => {
       this.phones = data;
       this.sortPhones();
@@ -35,10 +35,10 @@ export class PhoneListComponent implements OnInit {
   }
 
 
-  confirmDelete(phone:Phone){
+  confirmDelete(phone: Phone) {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.data ={phone : phone, phoneToDisplay : this.formatPhoneNumber(phone.phoneNumber)}
+    dialogConfig.data = { phone: phone, phoneToDisplay: this.formatPhoneNumber(phone.phoneNumber) }
 
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = false;
@@ -47,17 +47,17 @@ export class PhoneListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(
       data => this.refreshPhoneList()
-    );    
+    );
   }
 
-  sendVerification(phone:Phone){
+  sendVerification(phone: Phone) {
     this.phoneService.sendVerificationCode(phone.userId, phone.phoneId).subscribe(response => {
       this.refreshPhoneList();
       this.submitVerification(phone);
     },
-    err => {
-      alert(JSON.stringify(err.error))
-    });
+      err => {
+        alert(JSON.stringify(err.error))
+      });
   }
 
 
@@ -70,44 +70,46 @@ export class PhoneListComponent implements OnInit {
     return null
   }
 
-  createPhone(){
+  createPhone() {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.data ={userId : this.userId}
+    dialogConfig.data = { userId: this.userId }
 
     let dialogRef = this.dialog.open(CreatePhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => (data && data.phoneCreated) ? this.refreshPhoneList() : null 
-    );    
+      data => (data && data.phoneCreated) ? this.refreshPhoneList() : null
+    );
   }
 
-  editPhone(phone:Phone){
+  editPhone(phone: Phone) {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.data ={phone : phone}
+    dialogConfig.data = { phone: phone }
 
     let dialogRef = this.dialog.open(EditPhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => (data && data.phoneEdited) ? this.refreshPhoneList() : null 
-    );    
+      data => (data && data.phoneEdited) ? this.refreshPhoneList() : null
+    );
   }
 
-   submitVerification(phone:Phone){
+  submitVerification(phone: Phone) {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.data ={phone : phone}
+    dialogConfig.data = { phone: phone }
 
     let dialogRef = this.dialog.open(VerifyPhoneComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => (data && data.phoneVerified) ? this.refreshPhoneList() : null 
-    );    
+      data => (data && data.phoneVerified) ? this.refreshPhoneList() : null
+    );
   }
 
-  sortPhones(){
-    this.phones.sort((a,b) => +b.primary - +a.primary);
+  sortPhones() {
+    if (this.phones) {
+      this.phones.sort((a, b) => +b.primary - +a.primary);
+    }
   }
-  
+
 }
