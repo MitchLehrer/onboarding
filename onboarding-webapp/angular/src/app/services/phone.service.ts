@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class PhoneService {
 
+  //FIXME same comments as user service
   private usersUrl: string;
 
   constructor(private http: HttpClient) {

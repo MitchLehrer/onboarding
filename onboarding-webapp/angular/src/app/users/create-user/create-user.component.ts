@@ -15,6 +15,7 @@ export class CreateUserComponent implements OnInit {
 
   newUser: User;
 
+  //FIXME use your server side validations rather than client side.
   newUserForm = this.fb.group({
     username: ['', [Validators.required, Validators.maxLength(20),]],
     firstName: ['', [Validators.required, Validators.maxLength(50)]],
@@ -33,6 +34,7 @@ export class CreateUserComponent implements OnInit {
   onSubmit() {
     this.newUser = this.newUserForm.getRawValue() as User;
     this.userService.save(this.newUser).subscribe(response => {
+      //FIXME 201 is a little dangerous. Obviously if the server change it from a 201 to a 200 you could call that a breaking change, but it's nice to cut people some slack and reasonably avoid future defects
       if (response.status == 201) {
         this.userCreated();
       }

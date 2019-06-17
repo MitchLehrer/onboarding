@@ -10,6 +10,13 @@ export class UsernameFilterPipe implements PipeTransform {
     if (!items) return [];
     if (!searchText) return items;
 
+    //FIXME see if you can write a better version accessing attributes by key.
+    //Also your solutions are very client side but it's important to be comfortable full stack.
+    //Imagine there were 200000 users in your system. Filtering would need to be done server side
+    //and your results table would have to be server side paginated.
+    // obj[key]
+
+
     searchText = searchText.toLowerCase();
 
     var usernameResults = items.filter(it => {

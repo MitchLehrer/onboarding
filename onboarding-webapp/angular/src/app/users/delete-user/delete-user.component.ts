@@ -24,6 +24,7 @@ export class DeleteUserComponent implements OnInit {
 
   deleteUser(){
     this.userService.delete(this.userToDelete.userId).subscribe(data => {
+        //FIXME future defect if someone chnges it to a 200
         if(data.status == 204){
           this.dialogRef.close({ userDeleted: true});
         }
