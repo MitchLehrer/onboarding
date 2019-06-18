@@ -15,13 +15,13 @@ export class EditPhoneComponent implements OnInit {
 
 
   newPhoneForm = this.fb.group({
-    phoneId:[''],
+    phoneId: [''],
     phoneNumber: [''],
     primary: ['']
   });
 
   setPrimary: boolean;
-  phoneToSubmit:Phone;
+  phoneToSubmit: Phone;
   errors: any;
 
   ngOnInit() {
@@ -35,12 +35,12 @@ export class EditPhoneComponent implements OnInit {
   editPhone() {
     this.phoneToSubmit = this.newPhoneForm.getRawValue() as Phone;
     this.setPrimary = this.phoneToSubmit.primary;
-    this.phoneToSubmit.primary=false;
+    this.phoneToSubmit.primary = false;
     this.phoneService.update(this.data.phone.userId, this.phoneToSubmit).subscribe(
       data => {
-        if(this.setPrimary){
+        if (this.setPrimary) {
           this.makePhonePrimary(data);
-        }else{
+        } else {
           this.phoneEdited();
         }
       },

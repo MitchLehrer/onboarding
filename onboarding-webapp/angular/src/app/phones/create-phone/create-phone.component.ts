@@ -40,8 +40,7 @@ export class CreatePhoneComponent implements OnInit {
     this.phoneToSubmit.phoneNumber = this.newPhoneNumber;
 
     this.makePrimary;
-
-
+    console.log(this.phoneToSubmit);
     this.phoneService.save(this.userId, this.phoneToSubmit).subscribe(
       data => {
           if(this.makePrimary){

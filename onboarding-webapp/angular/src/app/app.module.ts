@@ -21,6 +21,7 @@ import { EditPhoneComponent } from './phones/edit-phone/edit-phone.component';
 import { PhoneListComponent } from './phones/phone-list/phone-list.component';
 import { VerifyPhoneComponent } from './phones/verify-phone/verify-phone.component';
 import { CreatePhoneComponent } from './phones/create-phone/create-phone.component';
+import { PhoneNumberComponent } from './phones/phone-number/phone-number.component';
 
 export var options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -38,7 +39,8 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
     EditPhoneComponent,
     PhoneListComponent,
     VerifyPhoneComponent,
-    CreatePhoneComponent
+    CreatePhoneComponent,
+    PhoneNumberComponent
   ],
   imports: [
     BrowserModule,

@@ -32,6 +32,7 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.newUser = this.newUserForm.getRawValue() as User;
+    console.log(this.newUser);
     this.userService.save(this.newUser).subscribe(data => {
       console.log(data);
       this.userCreated();

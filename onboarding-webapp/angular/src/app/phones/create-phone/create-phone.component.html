@@ -4,8 +4,7 @@
   <form class="form" [formGroup]="newPhoneForm" (ngSubmit)="createPhone()">
     <div class="form-group">
       <label for="inputEmail4">New Phone Number</label>
-      <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel" mask='(000) 000-0000'
-        formControlName="phoneNumber" required>
+      <app-phone-number formControlName="phoneNumber"></app-phone-number>
         <div *ngIf="errors && errors.phoneNumber" class="form-alert">{{errors.phoneNumber}}</div>
     </div>
     <div class="form-group">

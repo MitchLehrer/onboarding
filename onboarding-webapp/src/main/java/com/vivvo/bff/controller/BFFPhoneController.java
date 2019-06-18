@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("ap1/v1/users/{userId}/phones")
+@RequestMapping("api/v1/users/{userId}/phones")
 @CrossOrigin(origins = "http://localhost:4200")
 public class BFFPhoneController {
 
