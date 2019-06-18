@@ -13,22 +13,19 @@ import { Phone } from 'src/app/models/phone';
 export class EditPhoneComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService, private fb: FormBuilder) { }
 
-  oldPhone: Phone;
-
-  PhoneNumber: string;
-  phoneToSubmit: Phone;
-  primary: boolean;
 
   newPhoneForm = this.fb.group({
+    phoneId:[''],
     phoneNumber: [''],
-    primary: ['false']
+    primary: ['']
   });
 
+  setPrimary: boolean;
+  phoneToSubmit:Phone;
+  errors: any;
 
   ngOnInit() {
-    this.oldPhone = this.data.phone;
-    console.log(this.oldPhone)
-    this.newPhoneForm.patchValue({ phoneNumber: this.oldPhone.phoneNumber });
+    this.newPhoneForm.patchValue(this.data.phone);
   }
 
   close() {
@@ -36,37 +33,35 @@ export class EditPhoneComponent implements OnInit {
   }
 
   editPhone() {
-    this.PhoneNumber = this.newPhoneForm.get('phoneNumber').value;
-    this.primary = this.newPhoneForm.get('primary').value;
-    this.phoneToSubmit = this.oldPhone;
-    this.phoneToSubmit.phoneNumber = this.PhoneNumber;
-
-    this.phoneService.update(this.oldPhone.userId, this.phoneToSubmit).subscribe(
+    this.phoneToSubmit = this.newPhoneForm.getRawValue() as Phone;
+    this.setPrimary = this.phoneToSubmit.primary;
+    this.phoneToSubmit.primary=false;
+    this.phoneService.update(this.data.phone.userId, this.phoneToSubmit).subscribe(
       data => {
-          if (this.primary) {
-            this.makePhonePrimary(data.phoneId);
-          } else {
-            this.phoneCreated();
-          }
+        if(this.setPrimary){
+          this.makePhonePrimary(data);
+        }else{
+          this.phoneEdited();
+        }
       },
       err => {
-        alert(JSON.stringify(err.error));
+        this.errors = err.error;
+        console.log(this.errors);
       }
     );
   }
 
-  phoneCreated() {
+  phoneEdited() {
     alert("Phone was successfully edited!");
     this.dialogRef.close({ phoneEdited: true });
   }
 
-  makePhonePrimary(phoneId: string) {
-    this.phoneService.setPrimary(this.oldPhone.userId, phoneId).subscribe(data => {
-      this.phoneCreated();
+  makePhonePrimary(phone: Phone) {
+    this.phoneService.setPrimary(this.data.phone.userId, phone.phoneId).subscribe(data => {
+      this.phoneEdited();
     },
       err => {
         alert(JSON.stringify(err.error))
       });
   }
-
 }

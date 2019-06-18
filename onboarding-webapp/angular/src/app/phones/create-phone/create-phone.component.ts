@@ -15,15 +15,15 @@ export class CreatePhoneComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService,private fb : FormBuilder) { }
 
   newPhoneForm = this.fb.group({
-    phoneNumber: ['',[Validators.required, Validators.maxLength(10),]],
+    phoneNumber: [''],
     makePrimary:['']
   });
 
+  errors: any;
   userId: string;
   newPhoneNumber:string;
   phoneToSubmit:Phone;
   makePrimary:boolean;
-  errors:string[];
 
   ngOnInit() {
     this.userId = this.data.userId;
@@ -51,7 +51,8 @@ export class CreatePhoneComponent implements OnInit {
           }
       },
       err => {
-        alert(JSON.stringify(err.error));
+        this.errors = err.error;
+        console.log(this.errors);
       }
     );
   }

@@ -4,7 +4,7 @@ import { Phone } from '../models/phone';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
-const USERS_URI = 'http://localhost:4445/users';
+const USERS_URI = './api/v1/users';
 
 @Injectable({
   providedIn: 'root'

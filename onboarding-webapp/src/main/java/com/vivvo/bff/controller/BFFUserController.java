@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/v1/users")
 @CrossOrigin(origins = "http://localhost:4200")
 public class BFFUserController {
 

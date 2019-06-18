@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { VerifyPhoneComponent } from 'src/app/phones/verify-phone/verify-phone.component';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user';
 
@@ -13,7 +13,7 @@ import { User } from 'src/app/models/user';
 export class EditUserComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private userService: UserService, private fb: FormBuilder) { }
 
-
+  errors:any;
   userToSubmit: User;
 
   editUserForm = this.fb.group({
@@ -52,7 +52,8 @@ export class EditUserComponent implements OnInit {
         console.log(data);
       },
       err => {
-        alert(JSON.stringify(err.error));
+        this.errors = err.error;
+        console.log(this.errors);
       }
     );
   }

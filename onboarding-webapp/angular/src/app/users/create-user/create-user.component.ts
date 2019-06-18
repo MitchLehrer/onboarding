@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { Validators, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { Phone } from 'src/app/models/phone';
 
 @Component({
   selector: 'app-create-user',
@@ -14,6 +13,7 @@ import { Phone } from 'src/app/models/phone';
 export class CreateUserComponent implements OnInit {
 
   newUser: User;
+  errors: any;
 
   newUserForm = this.fb.group({
     username: [''],
@@ -37,7 +37,8 @@ export class CreateUserComponent implements OnInit {
       this.userCreated();
     },
     err => {
-      alert(JSON.stringify(err.error));
+      this.errors=err.error;
+      console.log(this.errors);
     });
   }
 

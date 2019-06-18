@@ -4,7 +4,7 @@ import { Observable, EMPTY, throwError } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { User } from '../models/user';
 
-const USERS_URI = 'http://localhost:4445/users'
+const USERS_URI = './api/v1/users'
 
 @Injectable({
   providedIn: 'root'

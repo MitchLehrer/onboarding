@@ -59,8 +59,8 @@ export class UserListComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteUserComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => console.log(data),
-      this.refreshUserList
+      data => {console.log(data),
+      this.refreshUserList()}
     );
   }
 
