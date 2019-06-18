@@ -43,12 +43,7 @@ export class UserComponent implements OnInit {
   }
 
   refreshUser(){
-    this.userService.find(this.user.userId).subscribe(data => {
-      this.user = data;
-    },
-    err =>{
-      alert(JSON.stringify(err.error))
-    });
+   
   }
 
   editUser(){

@@ -44,15 +44,11 @@ export class CreatePhoneComponent implements OnInit {
 
     this.phoneService.save(this.userId, this.phoneToSubmit).subscribe(
       data => {
-        if(data.status == 201){
           if(this.makePrimary){
-            this.makePhonePrimary(data.body.phoneId);
+            this.makePhonePrimary(data.phoneId);
           }else{
             this.phoneCreated();
           }
-        }else{
-          alert(data.status);
-        }
       },
       err => {
         alert(JSON.stringify(err.error));
@@ -67,9 +63,7 @@ export class CreatePhoneComponent implements OnInit {
 
   makePhonePrimary(phoneId:string){
     this.phoneService.setPrimary(this.userId, phoneId).subscribe(data => {
-      if(data.status == 200){
         this.phoneCreated();
-      }
     },
     err =>{
       alert(JSON.stringify(err.error));

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
+import { FormControl, FormBuilder } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, debounce } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-list',
@@ -13,20 +15,33 @@ import { EditUserComponent } from '../edit-user/edit-user.component';
 })
 export class UserListComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private userService: UserService, private router: Router) { }
+  constructor(private dialog: MatDialog, private userService: UserService, private router: Router, private fb: FormBuilder) { }
 
   users: User[];
+  searchInput:string;
 
   ngOnInit() {
+    this.getAllUsers();
+  }
+
+  refreshUserList() {
+    this.onSearchChange(this.searchInput);
+  }
+
+  getAllUsers(){
     this.userService.findAll().subscribe(data => {
       this.users = data;
     });
   }
 
-  refreshUserList() {
-    this.userService.findAll().subscribe(data => {
-      this.users = data;
-    });
+  onSearchChange(searchValue: string) {
+    if (!searchValue) {
+      this.getAllUsers();
+    } else {
+      this.userService.findAllBySearch(searchValue).subscribe(data => {
+        this.users = data;
+      });
+    }
   }
 
   navigateToUser(user: User) {
@@ -44,7 +59,8 @@ export class UserListComponent implements OnInit {
     let dialogRef = this.dialog.open(DeleteUserComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(
-      data => this.refreshUserList()
+      data => console.log(data),
+      this.refreshUserList
     );
   }
 

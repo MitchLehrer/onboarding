@@ -46,11 +46,12 @@
         opacity:1;
     }
 
-    .no-results-text{
-        max-width:80px;
-        display:inline-block;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-    }
+}
+
+.no-results-text{
+    max-width:80px;
+    display:inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

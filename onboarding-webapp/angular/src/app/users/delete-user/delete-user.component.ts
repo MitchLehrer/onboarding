@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 
@@ -10,29 +10,27 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class DeleteUserComponent implements OnInit {
 
-  constructor(  @Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<DeleteUserComponent>, private userService: UserService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<DeleteUserComponent>, private userService: UserService) { }
 
-  userToDelete : User;
+  userToDelete: User;
 
   ngOnInit() {
     this.userToDelete = this.data.user;
   }
 
-  close(){
+  close() {
     this.dialogRef.close();
   }
 
-  deleteUser(){
+  deleteUser() {
     this.userService.delete(this.userToDelete.userId).subscribe(data => {
-        //FIXME future defect if someone chnges it to a 200
-        if(data.status == 204){
-          this.dialogRef.close({ userDeleted: true});
-        }
+      this.dialogRef.close({ userDeleted: true });
+
     },
-    err =>{
-      alert(JSON.stringify(err.error));
-      this.dialogRef.close();
-    });
+      err => {
+        alert(JSON.stringify(err.error));
+        this.dialogRef.close();
+      });
   }
 
 }

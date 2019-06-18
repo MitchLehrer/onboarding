@@ -53,4 +53,11 @@ public class UserController {
         dto.setUserId(userId);
         return userService.update(dto);
     }
+
+
+    @GetMapping(params = "search")
+    public List<UserDto> getBySearch(@RequestParam String search) {
+        return userService.getBySearch(search);
+    }
+
 }

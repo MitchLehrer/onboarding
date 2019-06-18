@@ -33,9 +33,7 @@ export class VerifyPhoneComponent implements OnInit {
   submitVerificationCode() {
     this.verificationCode = this.verificationForm.get('verificationCode').value;
     this.phoneService.submitVerificationCode(this.phoneToVerify.userId, this.phoneToVerify.phoneId, this.verificationCode).subscribe(data => {
-      if (data.status == 200) {
-        this.phoneVerified();
-      }
+      this.phoneVerified();
     },
       err => {
         alert(JSON.stringify(err.error))

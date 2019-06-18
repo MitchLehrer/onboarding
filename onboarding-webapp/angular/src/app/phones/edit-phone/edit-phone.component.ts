@@ -11,23 +11,24 @@ import { Phone } from 'src/app/models/phone';
   styleUrls: ['./edit-phone.component.scss']
 })
 export class EditPhoneComponent implements OnInit {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService,private fb : FormBuilder) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private dialogRef: MatDialogRef<VerifyPhoneComponent>, private phoneService: PhoneService, private fb: FormBuilder) { }
 
-  oldPhone:Phone;
+  oldPhone: Phone;
 
-  PhoneNumber:string;
-  phoneToSubmit:Phone;
+  PhoneNumber: string;
+  phoneToSubmit: Phone;
   primary: boolean;
 
   newPhoneForm = this.fb.group({
-    phoneNumber: ['',[Validators.required, Validators.maxLength(10),]],
-    makePrimary:['']
+    phoneNumber: [''],
+    primary: ['false']
   });
 
 
   ngOnInit() {
     this.oldPhone = this.data.phone;
-    this.newPhoneForm.patchValue({phoneNumber : this.oldPhone.phoneNumber});
+    console.log(this.oldPhone)
+    this.newPhoneForm.patchValue({ phoneNumber: this.oldPhone.phoneNumber });
   }
 
   close() {
@@ -36,19 +37,17 @@ export class EditPhoneComponent implements OnInit {
 
   editPhone() {
     this.PhoneNumber = this.newPhoneForm.get('phoneNumber').value;
-    this.primary = this.newPhoneForm.get('makePrimary').value;
+    this.primary = this.newPhoneForm.get('primary').value;
     this.phoneToSubmit = this.oldPhone;
     this.phoneToSubmit.phoneNumber = this.PhoneNumber;
 
     this.phoneService.update(this.oldPhone.userId, this.phoneToSubmit).subscribe(
       data => {
-        if(data.status == 200){
-          if(this.primary){
-            this.makePhonePrimary(data.body.phoneId);
-          }else{
+          if (this.primary) {
+            this.makePhonePrimary(data.phoneId);
+          } else {
             this.phoneCreated();
           }
-        }
       },
       err => {
         alert(JSON.stringify(err.error));
@@ -56,20 +55,18 @@ export class EditPhoneComponent implements OnInit {
     );
   }
 
-  phoneCreated(){
-    alert("Phone was successfully created!");
-    this.dialogRef.close({ phoneEdited: true});
+  phoneCreated() {
+    alert("Phone was successfully edited!");
+    this.dialogRef.close({ phoneEdited: true });
   }
 
-  makePhonePrimary(phoneId:string){
+  makePhonePrimary(phoneId: string) {
     this.phoneService.setPrimary(this.oldPhone.userId, phoneId).subscribe(data => {
-      if(data.status == 200){
-        this.phoneCreated();
-      }
+      this.phoneCreated();
     },
-    err => {
-      alert(JSON.stringify(err.error))
-    });
+      err => {
+        alert(JSON.stringify(err.error))
+      });
   }
 
 }

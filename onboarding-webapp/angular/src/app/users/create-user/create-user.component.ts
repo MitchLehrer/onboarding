@@ -15,13 +15,12 @@ export class CreateUserComponent implements OnInit {
 
   newUser: User;
 
-  //FIXME use your server side validations rather than client side.
   newUserForm = this.fb.group({
-    username: ['', [Validators.required, Validators.maxLength(20),]],
-    firstName: ['', [Validators.required, Validators.maxLength(50)]],
-    lastName: ['', [Validators.required, Validators.maxLength(50)]],
+    username: [''],
+    firstName: [''],
+    lastName: [''],
     phoneList: this.fb.array([this.fb.group({
-      phoneNumber: ['', [Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+      phoneNumber: [''],
       primary:['true']
   })])
   });
@@ -33,14 +32,9 @@ export class CreateUserComponent implements OnInit {
 
   onSubmit() {
     this.newUser = this.newUserForm.getRawValue() as User;
-    this.userService.save(this.newUser).subscribe(response => {
-      //FIXME 201 is a little dangerous. Obviously if the server change it from a 201 to a 200 you could call that a breaking change, but it's nice to cut people some slack and reasonably avoid future defects
-      if (response.status == 201) {
-        this.userCreated();
-      }
-      else {
-        alert("Error creating user");
-      }
+    this.userService.save(this.newUser).subscribe(data => {
+      console.log(data);
+      this.userCreated();
     },
     err => {
       alert(JSON.stringify(err.error));
@@ -74,7 +68,7 @@ export class CreateUserComponent implements OnInit {
   addPhone() {
     this.phoneList.push(
       this.fb.group({
-        phoneNumber: ['',[Validators.required, Validators.maxLength(10), Validators.minLength(10)]],
+        phoneNumber: [''],
         primary:['false']
     }))
   }

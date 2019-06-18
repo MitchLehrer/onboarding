@@ -5,12 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-
-  //FIXME remove unused constructor and OnInit. we remove all unused code as all code must serve a purpose
-  constructor() { }
-
-  ngOnInit() {
-  }
+export class HeaderComponent{
 
 }

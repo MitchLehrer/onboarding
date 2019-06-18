@@ -64,6 +64,13 @@ public class UserClient {
                 .get(new GenericType<List<UserDto>>(){});
     }
 
+    public List<UserDto> getBySearch(String search) {
+        return userTarget()
+                .queryParam("search", search)
+                .request()
+                .get(new GenericType<List<UserDto>>(){});
+    }
+
 
     private WebTarget userTarget() {
         return client.target(baseUri)

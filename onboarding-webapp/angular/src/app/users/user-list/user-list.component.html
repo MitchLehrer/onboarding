@@ -11,8 +11,8 @@
 </div>
 <div class="container py-3">
   <div class="mb-3 shadow-sm user-search color-text-light" style="border-radius:4px;"><i class="fas fa-search fa"></i>
-    <input class="form-control border-0" type="text" placeholder="Search by username, first name, last name, or ID " aria-label="Search"
-      [(ngModel)]="searchText">
+    <input class="form-control border-0" [(ngModel)]="searchInput" (input)="onSearchChange($event.target.value)"
+      type="text" placeholder="Search by username, first name, or last name" aria-label="Search">
   </div>
   <div class="card card-shadow">
     <table class="table m-0 table-sm user-list table-hover" #userList>
@@ -25,29 +25,28 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users | searchFilter : searchText" (click)="navigateToUser(user)">
-          <ng-container *ngIf="user != -1">
-            <td class="align-middle">{{ user.username}}</td>
-            <td class="align-middle">{{ user.firstName }}</td>
-            <td class="align-middle">{{ user.lastName }}</td>
-            <td class="align-middle">
-              <div class="btn-group btn-group-sm" role="group"><button
-                  (click)="editUser(user); $event.stopPropagation()" type="button"
-                  class="btn btn-link p-2 color-text"><i class="far fa-edit"></i></button><button
-                  (click)="confirmDelete(user); $event.stopPropagation()" type="button"
-                  class="btn btn-link p-2 color-text"><i class="fas fa-trash-alt"></i></button>
-              </div>
-            </td>
-          </ng-container>
-          <ng-container *ngIf="user == -1">
-            <td class="align-middle text-center p-5 text-center" colspan="4">No results for "<span class = "no-results-text align-bottom">{{searchText}}</span>"</td>
-          </ng-container>
+        <tr *ngFor="let user of users" (click)="navigateToUser(user)">
+          <td class="align-middle">{{ user.username}}</td>
+          <td class="align-middle">{{ user.firstName }}</td>
+          <td class="align-middle">{{ user.lastName }}</td>
+          <td class="align-middle">
+            <div class="btn-group btn-group-sm" role="group"><button (click)="editUser(user); $event.stopPropagation()"
+                type="button" class="btn btn-link p-2 color-text"><i class="far fa-edit"></i></button><button
+                (click)="confirmDelete(user); $event.stopPropagation()" type="button"
+                class="btn btn-link p-2 color-text"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
     <div *ngIf="!users?.length" class="text-center p-5">
-      <h4>No Users Found</h4>
-      <p style="font-size:13px;">There are currently no users in the database.</p>
+      <div *ngIf="!searchInput; else noSearchResults">
+        <h5>No Users Found</h5>
+        <p style="font-size:13px;">There are currently no users in the database.</p>
+      </div>
+      <ng-template #noSearchResults>
+        <h6>No results for "<span class="no-results-text align-bottom">{{searchInput}}</span>"</h6>
+      </ng-template>
     </div>
   </div>
 </div>

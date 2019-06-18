@@ -55,4 +55,9 @@ public class BFFUserController {
         dto.setUserId(userId);
         return userClient.update(dto);
     }
+
+    @GetMapping(params="search")
+    public List<UserDto> getBySearch(@RequestParam String search) {
+        return userClient.getBySearch(search);
+    }
 }

@@ -9,11 +9,9 @@ import com.vivvo.onboarding.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -138,5 +136,14 @@ public class UserService {
         }
     }
 
+    public List<UserDto> getBySearch(String search) {
+
+        List<UserDto>  results = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(search, search, search)
+                .stream()
+                .map(userAssembler::assemble)
+                .collect(Collectors.toList());
+
+        return results;
+    }
 
 }
