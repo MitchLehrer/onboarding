@@ -11,7 +11,7 @@
 </div>
 <div class="container py-3">
   <div class="mb-3 shadow-sm user-search color-text-light" style="border-radius:4px;"><i class="fas fa-search fa"></i>
-    <input class="form-control border-0" [(ngModel)]="searchInput" (input)="getAllUsers($event.target.value)"
+    <input class="form-control border-0" [(ngModel)]="searchInput" (input)="onSearchChange($event.target.value)"
       type="text" placeholder="Search by username, first name, or last name" aria-label="Search">
   </div>
   <div class="card card-shadow">
@@ -42,11 +42,11 @@
         </tr>
       </tbody>
     </table>
-    <div class="p-2" *ngIf="users?.length">
-      <ngb-pagination [collectionSize]="totalElements" [(page)]="page" [(pageSize)]="pageSize"
-        (pageChange)="refreshUserList()" size="sm"></ngb-pagination>
+    <div class="px-2 py-3" *ngIf="users?.length">
+      <ngb-pagination [collectionSize]="totalElements" [(page)]="page" [(pageSize)]="pageSize"  [boundaryLinks]="true" [maxSize]="5" [rotate]="true"
+        (pageChange)="getAllUsers(searchInput)" size="sm"></ngb-pagination>
     </div>
-    <div *ngIf="!users?.length" class="text-center p-5">
+    <div *ngIf="users && !users?.length" class="text-center p-5">
       <div *ngIf="!searchInput; else noSearchResults">
         <h5>No Users Found</h5>
         <p style="font-size:13px;">There are currently no users in the database.</p>

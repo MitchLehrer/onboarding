@@ -77,6 +77,7 @@ public class UserClient {
                 .get(new GenericType<List<UserDto>>(){});
     }
 
+
     private WebTarget userTarget() {
         return client.target(baseUri)
                 .path("api")

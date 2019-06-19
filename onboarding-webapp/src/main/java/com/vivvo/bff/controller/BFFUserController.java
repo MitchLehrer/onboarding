@@ -64,10 +64,11 @@ public class BFFUserController {
         return userClient.update(dto);
     }
 
-    @GetMapping(params="page")
-    Page<UserDto> getUsersPage(@RequestParam("page") Integer page,
-                               @RequestParam(value = "size", required = false) Integer size,
-                               @RequestParam(value = "search", required = false) String search) {
+    @GetMapping(params = "page")
+    public Page<UserDto> getUsersPage(@RequestParam("page") Integer page,
+                                      @RequestParam(value = "size", required = false) Integer size,
+                                      @RequestParam(value = "search", required = false) String search) {
         return userClient.getByPage(page, size, search);
     }
+
 }

@@ -156,5 +156,19 @@ public class UserService {
         return userRepository.findAll(paging).map(userAssembler::assemble);
     }
 
+    public void addTestUsers(Integer  numUsers){
+        for (int i=0; i<numUsers; i++){
+            create(getValidUserDto(i));
+        }
+    }
+
+    private UserDto getValidUserDto(Integer i) {
+        return new UserDto()
+                .setFirstName("Test")
+                .setLastName("Testerson")
+                .setUsername("Test" + i);
+    }
+
+
 
 }

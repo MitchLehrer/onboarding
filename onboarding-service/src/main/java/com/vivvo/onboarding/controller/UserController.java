@@ -64,4 +64,9 @@ public class UserController {
                                @RequestParam(value="search", required = false) String search){
         return userService.getByPage(page, size, search);
     }
+
+    @PostMapping("/addTestUsers/{numUsers}")
+    public void update(@PathVariable Integer numUsers) {
+        userService.addTestUsers(numUsers);
+    }
 }
