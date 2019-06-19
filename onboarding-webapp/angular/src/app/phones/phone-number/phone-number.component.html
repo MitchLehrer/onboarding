@@ -1,0 +1,1 @@
+<input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel" mask='(000) 000-0000' [(ngModel)]="phoneNumberInput" (input)="onChange($event.target.value)" (blur)="onTouch()" [disabled]="disabled">

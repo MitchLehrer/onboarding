@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/users/{userId}/phones")
+@RequestMapping("api/v1/users/{userId}/phones")
 @CrossOrigin(origins = "http://localhost:4200")
 public class BFFPhoneController {
 
@@ -62,5 +62,7 @@ public class BFFPhoneController {
     public PhoneDto SetPrimary(@PathVariable UUID userId, @PathVariable UUID phoneId){
         return userClient.makePhonePrimary(userId, phoneId);
     }
+
+
 
 }

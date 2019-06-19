@@ -7,13 +7,15 @@ import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class UserService {
@@ -137,6 +139,36 @@ public class UserService {
             throw new NotFoundException(userId);
         }
     }
+
+    public Page<UserDto> getByPage(Integer page, Integer size, String search) {
+        Integer pageSize = 10;
+
+        if(size != null){
+             pageSize = size;
+        }
+
+        Pageable paging = PageRequest.of(page,pageSize);
+
+        if(search != null &&  !search.isEmpty()){
+            return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(paging, search, search, search).map(userAssembler::assemble);
+        }
+
+        return userRepository.findAll(paging).map(userAssembler::assemble);
+    }
+
+    public void addTestUsers(Integer  numUsers){
+        for (int i=0; i<numUsers; i++){
+            create(getValidUserDto(i));
+        }
+    }
+
+    private UserDto getValidUserDto(Integer i) {
+        return new UserDto()
+                .setFirstName("Test")
+                .setLastName("Testerson")
+                .setUsername("Test" + i);
+    }
+
 
 
 }

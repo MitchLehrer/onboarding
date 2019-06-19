@@ -14,61 +14,38 @@
         <div class="form-group">
           <label>Username</label>
           <input type="text" class="form-control" formControlName="username" id="username" name="username"
-            placeholder="SmithJ123" required>
-          <div *ngIf="username.invalid && (username.dirty || username.touched)" class="form-alert">
-            <div *ngIf="username.errors.required">
-              Username is required.
-            </div>
-            <div *ngIf="username.errors.maxlength">
-              Username may not exceed 20 characters.
-            </div>
-          </div>
+            placeholder="SmithJ123">
+          <div *ngIf="errors && errors.username" class="form-alert">{{errors.username}}</div>
         </div>
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label>First Name</label>
               <input type="text" class="form-control" formControlName="firstName" id="firstName" name="firstName"
-                placeholder="John" required>
-              <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="form-alert">
-                <div *ngIf="firstName.errors.required">
-                  First name is required.
-                </div>
-                <div *ngIf="firstName.errors.maxlength">
-                  First name may not exceed 50 characters.
-                </div>
-              </div>
+                placeholder="John">
+              <div *ngIf="errors && errors.firstName" class="form-alert">{{errors.firstName}}</div>
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label>Last Name</label>
               <input type="text" class="form-control" id="lastName" formControlName="lastName" name="lastName"
-                placeholder="Smith" required>
-              <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="form-alert">
-                <div *ngIf="lastName.errors.required">
-                  Last name is required.
-                </div>
-                <div *ngIf="lastName.errors.maxlength">
-                  Last name may not exceed 50 characters.
-                </div>
-              </div>
+                placeholder="Smith">
+              <div *ngIf="errors && errors.lastName" class="form-alert">{{errors.lastName}}</div>
             </div>
           </div>
         </div>
         <div class="form-group">
           <div formArrayName="phoneList">
             <label class="mr-auto mb-1">Phone Numbers</label>
-            <div *ngFor="let phone of phoneList.controls; let i=index;">
-              <div [formGroupName] = "i">
-                <label class="control-label align-self-center mb-0 mr-3"><span
-                    *ngIf="i<=0; then primaryLabel else secondaryLabel"></span></label>
-                <ng-template #primaryLabel>Primary</ng-template>
-                <ng-template #secondaryLabel>Secondary</ng-template>
-                <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel"
-                  mask='(000) 000-0000' formControlName="phoneNumber" required>
-              </div>
+            <div *ngFor="let phone of phoneList.controls; let i=index;" [formGroupName]="i">
+              <label class="control-label align-self-center mb-0 mr-3"><span
+                  *ngIf="i==0; then primaryLabel else secondaryLabel"></span></label>
+              <ng-template #primaryLabel>Primary</ng-template>
+              <ng-template #secondaryLabel>Secondary</ng-template>
+              <app-phone-number formControlName="phoneNumber"></app-phone-number>
             </div>
+            <div *ngIf="errors && errors.phoneNumber" class="form-alert">{{errors.phoneNumber}}</div>
           </div>
         </div>
         <div class="mb-4">
@@ -81,10 +58,7 @@
             </button>
           </span>
         </div>
-        <button type="submit" [disabled]="!newUserForm.valid" class="btn btn-block btn-primary">Submit</button>
-        <!--<p>
-          Form Status: {{ newUserForm.status }}
-        </p>-->
+        <button type="submit" class="btn btn-block btn-primary">Submit</button>
       </form>
     </div>
   </div>

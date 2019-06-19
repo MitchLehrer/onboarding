@@ -4,13 +4,13 @@
     <form class="form" [formGroup]="newPhoneForm" (ngSubmit)="editPhone()">
       <div class="form-group">
         <label for="inputEmail4">Phone Number</label>
-        <input placeholder="(555) 555-5555" type="text" class="form-control mb-2" type="tel" mask='(000) 000-0000'
-          formControlName="phoneNumber" value = "{{oldPhone.phoneNumber | mask: '(000) 000-0000'}}"required>
+          <app-phone-number formControlName="phoneNumber"></app-phone-number>
+          <div *ngIf="errors && errors.phoneNumber" class="form-alert">{{errors.phoneNumber}}</div>
       </div>
-      <div class="form-group" *ngIf="!oldPhone.primary">
+      <div class="form-group" *ngIf="!data.phone.primary">
         <div class="form-check mb-2 ">
           <div class="d-flex align-middle">
-            <input class="form-check-input" formControlName="makePrimary" type="checkbox" value="">
+            <input class="form-check-input" formControlName="primary" type="checkbox" value="">
             <label class="form-check-label">
               Make Primary
             </label>
@@ -20,6 +20,6 @@
           </small>
         </div>
       </div>
-      <button class="btn btn-primary" [disabled]="!newPhoneForm.valid">Submit</button>
+      <button class="btn btn-primary" >Submit</button>
     </form>
   </div>

@@ -6,6 +6,5 @@ export class User {
     firstName:string;
     lastName: string;
 
-    //FIXME usually lists are just plural. so phones rather than phoneList
     phoneList: Phone[];
 }

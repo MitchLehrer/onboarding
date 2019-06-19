@@ -3,10 +3,14 @@ package com.vivvo.onboarding.controller;
 import com.vivvo.onboarding.UserDto;
 import com.vivvo.onboarding.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -52,5 +56,17 @@ public class UserController {
     public UserDto update(@PathVariable UUID userId, @RequestBody UserDto dto) {
         dto.setUserId(userId);
         return userService.update(dto);
+    }
+
+    @GetMapping(params={"page"})
+    Page<UserDto> getUsersPage(@RequestParam("page") Integer page,
+                               @RequestParam(value="size", required = false) Integer size,
+                               @RequestParam(value="search", required = false) String search){
+        return userService.getByPage(page, size, search);
+    }
+
+    @PostMapping("/addTestUsers/{numUsers}")
+    public void update(@PathVariable Integer numUsers) {
+        userService.addTestUsers(numUsers);
     }
 }
