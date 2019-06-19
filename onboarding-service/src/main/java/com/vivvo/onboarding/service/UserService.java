@@ -7,6 +7,10 @@ import com.vivvo.onboarding.exception.NotFoundException;
 import com.vivvo.onboarding.exception.ValidationException;
 import com.vivvo.onboarding.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -136,14 +140,21 @@ public class UserService {
         }
     }
 
-    public List<UserDto> getBySearch(String search) {
+    public Page<UserDto> getByPage(Integer page, Integer size, String search) {
+        Integer pageSize = 10;
 
-        List<UserDto>  results = userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(search, search, search)
-                .stream()
-                .map(userAssembler::assemble)
-                .collect(Collectors.toList());
+        if(size != null){
+             pageSize = size;
+        }
 
-        return results;
+        Pageable paging = PageRequest.of(page,pageSize);
+
+        if(search != null &&  !search.isEmpty()){
+            return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrUsernameContainingIgnoreCase(paging, search, search, search).map(userAssembler::assemble);
+        }
+
+        return userRepository.findAll(paging).map(userAssembler::assemble);
     }
+
 
 }

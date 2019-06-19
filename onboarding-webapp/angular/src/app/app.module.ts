@@ -22,6 +22,8 @@ import { PhoneListComponent } from './phones/phone-list/phone-list.component';
 import { VerifyPhoneComponent } from './phones/verify-phone/verify-phone.component';
 import { CreatePhoneComponent } from './phones/create-phone/create-phone.component';
 import { PhoneNumberComponent } from './phones/phone-number/phone-number.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { from } from 'rxjs';
 
 export var options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -50,7 +52,8 @@ export var options: Partial<IConfig> | (() => Partial<IConfig>);
     MatDialogModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot(options),
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent],

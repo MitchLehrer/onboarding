@@ -1,6 +1,8 @@
 package com.vivvo.onboarding;
 
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -8,6 +10,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserClient {
@@ -50,6 +53,16 @@ public class UserClient {
                 .get(new GenericType<List<UserDto>>(){});
     }
 
+    public Page<UserDto> getByPage(Integer page, Integer size, String search) {
+        return userTarget()
+                .queryParam("page", page)
+                .queryParam("size", size)
+                .queryParam("search", search)
+                .request()
+                .get(new GenericType<RestResponsePage<UserDto>>() {
+                });
+    }
+
     public List<UserDto> getByFirstName(String firstName) {
         return userTarget()
                 .queryParam("firstName", firstName)
@@ -63,14 +76,6 @@ public class UserClient {
                 .request()
                 .get(new GenericType<List<UserDto>>(){});
     }
-
-    public List<UserDto> getBySearch(String search) {
-        return userTarget()
-                .queryParam("search", search)
-                .request()
-                .get(new GenericType<List<UserDto>>(){});
-    }
-
 
     private WebTarget userTarget() {
         return client.target(baseUri)

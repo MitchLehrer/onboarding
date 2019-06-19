@@ -5,43 +5,40 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeleteUserComponent } from '../delete-user/delete-user.component';
 import { EditUserComponent } from '../edit-user/edit-user.component';
-import { FormControl, FormBuilder } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, debounce } from 'rxjs/operators';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private userService: UserService, private router: Router, private fb: FormBuilder) { }
+
+export class UserListComponent implements OnInit {
+  
+  page:number;
+  pageSize=4;
+
+  constructor(private dialog: MatDialog, private userService: UserService, private router: Router, private fb: FormBuilder) { this.page=1;}
 
   users: User[];
-  searchInput:string;
+  totalElements: number;
+  searchInput: string;
+
 
   ngOnInit() {
-    this.getAllUsers();
+    this.getAllUsers(null);
   }
 
   refreshUserList() {
-    this.onSearchChange(this.searchInput);
+    this.getAllUsers(null);
   }
 
-  getAllUsers(){
-    this.userService.findAll().subscribe(data => {
-      this.users = data;
+  getAllUsers(search:string){
+    this.userService.findAllByPage(this.page - 1, this.pageSize, search).subscribe(data => {
+      this.users = data.content;
+      this.totalElements = data.totalElements;
     });
-  }
-
-  onSearchChange(searchValue: string) {
-    if (!searchValue) {
-      this.getAllUsers();
-    } else {
-      this.userService.findAllBySearch(searchValue).subscribe(data => {
-        this.users = data;
-      });
-    }
   }
 
   navigateToUser(user: User) {

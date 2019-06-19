@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, Optional } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, EMPTY, throwError } from 'rxjs';
 import { catchError, debounceTime } from 'rxjs/operators';
 import { User } from '../models/user';
@@ -19,9 +19,12 @@ export class UserService {
     return this.http.get<User[]>(USERS_URI);
   }
 
-  public findAllBySearch(search:string): Observable<User[]>  {
-    return this.http.get<User[]>(`${USERS_URI}?search=${search}`)
-    .pipe(
+  public findAllByPage(page:number, size:number, search:string): Observable<any>  {
+    let params = new HttpParams().set('page', page.toString()).set('size', size.toString());
+    if(search){
+      params = params.append('search', search);
+    }
+    return this.http.get<any>(`${USERS_URI}`,{params:params}).pipe(
       debounceTime(300)
     );
   }

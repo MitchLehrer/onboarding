@@ -1,4 +1,4 @@
-package com.vivvo.bff.controller;
+package com.vivvo.onboarding;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

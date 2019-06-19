@@ -11,7 +11,7 @@
 </div>
 <div class="container py-3">
   <div class="mb-3 shadow-sm user-search color-text-light" style="border-radius:4px;"><i class="fas fa-search fa"></i>
-    <input class="form-control border-0" [(ngModel)]="searchInput" (input)="onSearchChange($event.target.value)"
+    <input class="form-control border-0" [(ngModel)]="searchInput" (input)="getAllUsers($event.target.value)"
       type="text" placeholder="Search by username, first name, or last name" aria-label="Search">
   </div>
   <div class="card card-shadow">
@@ -37,7 +37,16 @@
             </div>
           </td>
         </tr>
+        <tr *ngIf="users?.length">
+          <td colspan="4" class="py-0">
+            <div class="pt-3">
+              <ngb-pagination [collectionSize]="totalElements" [(page)]="page" [(pageSize)]="pageSize"
+                (pageChange)="refreshUserList()" size="sm"></ngb-pagination>
+            </div>
+          </td>
+        </tr>
       </tbody>
+
     </table>
     <div *ngIf="!users?.length" class="text-center p-5">
       <div *ngIf="!searchInput; else noSearchResults">

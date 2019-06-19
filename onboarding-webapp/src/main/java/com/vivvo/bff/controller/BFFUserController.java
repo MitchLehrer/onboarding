@@ -4,10 +4,17 @@ package com.vivvo.bff.controller;
 import com.vivvo.onboarding.UserClient;
 import com.vivvo.onboarding.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.NotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -28,6 +35,7 @@ public class BFFUserController {
     public UserDto create(@RequestBody UserDto dto) {
         return userClient.create(dto);
     }
+
 
     @GetMapping("/{userId}")
     public UserDto get(@PathVariable UUID userId) {
@@ -56,8 +64,10 @@ public class BFFUserController {
         return userClient.update(dto);
     }
 
-    @GetMapping(params="search")
-    public List<UserDto> getBySearch(@RequestParam String search) {
-        return userClient.getBySearch(search);
+    @GetMapping(params="page")
+    Page<UserDto> getUsersPage(@RequestParam("page") Integer page,
+                               @RequestParam(value = "size", required = false) Integer size,
+                               @RequestParam(value = "search", required = false) String search) {
+        return userClient.getByPage(page, size, search);
     }
 }
