@@ -31,6 +31,7 @@ export class UserListComponent implements OnInit {
   }
 
   refreshUserList() {
+    this.searchInput = null;
     this.getAllUsers(null);
   }
 

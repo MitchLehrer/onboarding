@@ -37,17 +37,15 @@
             </div>
           </td>
         </tr>
-        <tr *ngIf="users?.length">
-          <td colspan="4" class="py-0">
-            <div class="pt-3">
-              <ngb-pagination [collectionSize]="totalElements" [(page)]="page" [(pageSize)]="pageSize"
-                (pageChange)="refreshUserList()" size="sm"></ngb-pagination>
-            </div>
-          </td>
+        <tr>
+          <td colspan="4" class="p-0"></td>
         </tr>
       </tbody>
-
     </table>
+    <div class="p-2" *ngIf="users?.length">
+      <ngb-pagination [collectionSize]="totalElements" [(page)]="page" [(pageSize)]="pageSize"
+        (pageChange)="refreshUserList()" size="sm"></ngb-pagination>
+    </div>
     <div *ngIf="!users?.length" class="text-center p-5">
       <div *ngIf="!searchInput; else noSearchResults">
         <h5>No Users Found</h5>
